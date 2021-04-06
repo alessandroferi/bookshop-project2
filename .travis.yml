@@ -20,7 +20,7 @@ install: true
 cache:
   directories:
     - $HOME/.m2
-    - $HOME/.sonar/cache
+    - $HOME/.sonar/cache 
     
 script:
   - mvn -f bookshop-project2/pom.xml clean verify -Pjacoco 
