@@ -1,0 +1,30 @@
+language: java
+
+dist: xenial
+
+jdk: openjdk11
+
+git:
+  depth: false
+  
+addons: 
+  sonarcloud:
+    organization: "alessandroferi"
+    
+services: 
+  - xvfb
+  - docker
+    
+install: true
+
+cache:
+  directories:
+    - $HOME/.m2
+    - $HOME/.sonar/cache
+    
+script:
+  - mvn -f bookshop-project2/pom.xml clean verify -Pjacoco 
+  - mvn -f bookshop-project2/pom.xml verify -Pintegration-tests
+  - mvn -f bookshop-project2/pom.xml verify -Pe2e-tests
+  - mvn -f bookshop-project2/pom.xml verify -Ppit
+  - mvn -f bookshop-project2/pom.xml coveralls:report sonar:sonar
