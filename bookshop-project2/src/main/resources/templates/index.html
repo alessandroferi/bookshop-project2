@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8"/>
+<style type="text/css">
+
+body {
+  background-image:URL("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTWgaH_3BIGepIZC1srl_GlNCXNxk2qwOAABw&usqp=CAU");
+  background-size:cover;
+}
+
+</style>
+
+<title>Home</title>
+<link rel="stylesheet" th:href="@{/css/style.css}" href="../../css/style.css"/>
+</head>
+
+<body>
+  <div class="left-elements">
+    <form name="Logout_form" th:action="@{/logout}" method="post">
+      <button class="buttons" id="btn_logout" type="submit" name="Logout">Logout</button> 
+    </form>
+    <h1 class="headers">Bookshop Home Page</h1>
+  </div>
+  
+  <div class="center-elements">
+    <form class="form" name="search_form" th:action="@{/search}" method="get">
+      <input class="input-border" type="text" name="title_searched" placeholder="Type a book title..."/>
+      <br>
+      <br>
+      <div class="center-elements">
+    	<button class="buttons" id="btn_search" type="submit" name="Search">Search</button> 
+    </div>
+    </form>
+  </div>
+  <hr>
+  
+  <div>
+    <h4 class="headers">Book List</h4>
+  </div>
+  
+  <div class="center-elements">
+    <a th:href="@{/new}"><button class="buttons" name= "Insert">Insert</button></a>
+    <form name="deleteAll" th:action="@{/deleteAll}" method="get">
+    <br>
+      <button class="buttons" type="submit" name="Delete All">Delete All</button>
+    </form>
+  </div>
+  
+  <!-- IF NO BOOKS -->
+  <div class="center-elements" th:if="${books.empty}">
+    <div>
+      <h4>There are no books.</h4>
+    </div>
+  </div>
+  <!-- ELSE -->
+  <div class="center-elements" th:unless="${books.empty}">
+    <div class="center-elements">
+    </div>
+    <br>  
+    <table class="table" id="Book Table">
+      <thead>
+        <tr>
+          <th colspan="2" scope="col">Title</th>
+          <th colspan="2" scope="col">Author</th>
+          <th colspan="2" scope="col">Price</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr th:each="book : ${books}">
+          <td colspan="2" th:text="${book.title}"></td>
+          <td colspan="2" th:text="${book.author}"></td>
+          <td colspan="2" th:text="${book.price}"></td>
+          <td colspan="2"><a id="edit" th:href="@{'/edit/' + ${book.id}}"><button class = "buttons" name="Edit">Edit</button></a></td>
+          <td colspan="2"><a th:href="@{/delete(id=${book.id})}"><button class = "buttons" name="Delete">Delete</button></a></td>        
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</body>
+</html>

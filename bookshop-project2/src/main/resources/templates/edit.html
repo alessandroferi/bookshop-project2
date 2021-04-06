@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8" />
+<style type="text/css">
+
+body {
+  background-image:URL("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTWgaH_3BIGepIZC1srl_GlNCXNxk2qwOAABw&usqp=CAU");
+  background-size:cover;
+}
+
+</style>
+<title>Edit Page</title>
+<link rel="stylesheet" th:href="@{/css/style.css}" href="../../css/style.css"/>
+</head>
+<body>
+  <div class="center-elements">
+     <h1 class="headers">Edit Page</h1>
+  </div>
+  
+  <br>
+  
+  <div th:unless="${message.empty}">
+    <span th:text="${message}"></span>
+  </div>
+
+  <div th:if="${message.empty}">
+    <form class="form" name="book_form" action="#" th:action="@{/save}"
+      th:object="${book}" method="post">
+      <input type="hidden" th:field="*{id}" /> 
+      <p class="parameters">
+        Title: <input class="input-border" name="title" type="text" th:field="*{title}" required/>
+      </p>
+       <p class="parameters">
+        Author: <input class="input-border" name="author" type="text" th:field="*{author}" required/>
+      </p>
+      <p class="parameters">
+        Price: <input class="input-border" name="price" type="text" th:field="*{price}" required/>
+      </p>
+      
+      <br>
+      
+      <div class="center-elements">
+        <button class="buttons" id="btn_save" name="Save" type="submit">Save</button>
+      </div>
+    </form>
+    <br>
+    <div class="center-elements">
+      <a th:href="@{/}">Home</a>
+    </div>
+  </div>
+</body>
+</html> 
