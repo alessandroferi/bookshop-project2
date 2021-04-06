@@ -19,6 +19,7 @@
     <java.version>1.8</java.version>
     <groovy.version>3.0.6</groovy.version>
     <cucumber.version>5.5.0</cucumber.version>
+    <sonar.projectKey>alessandroferi_bookshop-project2</sonar.projectKey>
     
     <skip.unit-tests>false</skip.unit-tests>
     <skip.integration-tests>false</skip.integration-tests>
