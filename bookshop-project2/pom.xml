@@ -54,11 +54,11 @@
       **/*model/*
     </sonar.cpd.exclusions>
     
-    <sonar.issue.ignore.multicriteria>e11,e12</sonar.issue.ignore.multicriteria>
-    <sonar.issue.ignore.multicriteria.e11.ruleKey>
+    <sonar.issue.ignore.multicriteria>e12</sonar.issue.ignore.multicriteria>
+    <!-- <sonar.issue.ignore.multicriteria.e11.ruleKey>
     	java:S3776
     </sonar.issue.ignore.multicriteria.e11.ruleKey>
-    <sonar.issue.ignore.multicriteria.e11.resourceKey>**/model/*</sonar.issue.ignore.multicriteria.e11.resourceKey>
+    <sonar.issue.ignore.multicriteria.e11.resourceKey>**/model/*</sonar.issue.ignore.multicriteria.e11.resourceKey> -->
     <sonar.issue.ignore.multicriteria.e12.ruleKey>
     	Web:TableWithoutCaptionCheck
     </sonar.issue.ignore.multicriteria.e12.ruleKey>
