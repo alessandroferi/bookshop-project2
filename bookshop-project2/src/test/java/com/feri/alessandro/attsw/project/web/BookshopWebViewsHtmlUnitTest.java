@@ -54,7 +54,7 @@ public class BookshopWebViewsHtmlUnitTest {
 		
 		assertTextPresent(page, "Sign in");
 		assertFormPresent(page, "login_form");
-		assertInputPresent(page, "email");
+		assertInputPresent(page, "username");
 		assertInputPresent(page, "password");
 		assertElementPresent(page, "login_button");
 		assertElementPresent(page, "registration_button");

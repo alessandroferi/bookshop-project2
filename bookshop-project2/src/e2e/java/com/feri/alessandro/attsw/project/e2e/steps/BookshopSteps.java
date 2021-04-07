@@ -81,11 +81,11 @@ public class BookshopSteps {
 	    Thread.sleep(1500);	    
 	}
 
-	@When("I insert {string} into email field and {string} into password field")
+	@When("I insert {string} into username field and {string} into password field")
 	public void i_insert_into_email_field_and_into_password_field(String email, String password) {
 	    webDriver.findElement(By.name("login_form"));
 	    
-	    webDriver.findElement(By.name("email")).sendKeys(email);
+	    webDriver.findElement(By.name("username")).sendKeys(email);
 	    webDriver.findElement(By.name("password")).sendKeys(password);
 	}
 	

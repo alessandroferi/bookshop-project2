@@ -1,7 +1,6 @@
 package com.feri.alessandro.attsw.project.model;
 
 import java.util.Collection;
-import java.util.Collections;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -115,7 +114,7 @@ public class User implements UserDetails {
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		return Collections.emptyList();
+		return null;
 	}
 
 	@Override

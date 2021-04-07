@@ -39,10 +39,10 @@ Feature: Registration and Login processes
   	Then I am on the "Result" page
   	And "You have successfully registered!" message is shown
   	When I click on "Login Page" link
-  	And I insert "wrong_email@gmail" into email field and "wrong_password" into password field
+  	And I insert "wrong_username" into username field and "wrong_password" into password field
   	And I click the "Sign in" button
   	Then I am on the "Login" page 
-  	And "Invalid email and password." message is shown
+  	And "Invalid username and password." message is shown
   	
   Scenario: Successful Login process
   	Given I am on the Registration page
@@ -51,7 +51,7 @@ Feature: Registration and Login processes
   	Then I am on the "Result" page
   	And "You have successfully registered!" message is shown
   	When I click on "Login Page" link
-  	And I insert "my_email@gmail" into email field and "my_password" into password field
+  	And I insert "my_username" into username field and "my_password" into password field
   	And I click the "Sign in" button
   	Then I am on the "Home" page
   	
@@ -62,7 +62,7 @@ Feature: Registration and Login processes
   	Then I am on the "Result" page 
   	And "You have successfully registered!" message is shown
   	When I click on "Login Page" link
-  	And I insert "my_email@gmail" into email field and "my_password" into password field
+  	And I insert "my_username" into username field and "my_password" into password field
   	And I click the "Sign in" button
   	Then I am on the "Home" page
   	When I click the "Logout" button
