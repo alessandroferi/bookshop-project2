@@ -46,7 +46,7 @@ public class UserServiceWithMockitoTest {
 	
 	@Test
 	public void test_findByEmail_whenUserAlreadyExist_shouldThrowException() {
-		User user = new User("1L", "tested_email@gmail", "username", "password");
+		User user = new User(null, "tested_email@gmail", "username", "password");
 		
 		when(userRepository.findByEmail("tested_email@gmail")).thenReturn(Optional.of(user));
 		
@@ -71,7 +71,7 @@ public class UserServiceWithMockitoTest {
 	
 	@Test
 	public void test_findByUsername_whenUserAlreadyExist_shouldThrowException() {
-		User user = new User("1L", "email@gmail", "tested_username", "password");
+		User user = new User(null, "email@gmail", "tested_username", "password");
 		
 		when(userRepository.findByUsername("tested_username")).thenReturn(Optional.of(user));
 		
@@ -84,7 +84,7 @@ public class UserServiceWithMockitoTest {
 	
 	@Test
 	public void test_loadByUsername() {
-		User user = new User("1L", "email@gmail", "tested_username", "password");
+		User user = new User(null, "email@gmail", "tested_username", "password");
 		
 		when(userRepository.findByUsername("tested_username")).thenReturn(Optional.of(user));
 		

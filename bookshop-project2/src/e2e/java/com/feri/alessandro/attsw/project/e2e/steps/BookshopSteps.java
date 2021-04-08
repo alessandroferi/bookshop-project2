@@ -6,7 +6,11 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootContextLoader;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
+import org.springframework.boot.web.server.LocalServerPort;
+import org.springframework.test.context.ContextConfiguration;
 
 import com.feri.alessandro.attsw.project.repositories.BookRepository;
 import com.feri.alessandro.attsw.project.repositories.UserRepository;
@@ -15,20 +19,23 @@ import io.cucumber.java.After;
 import io.cucumber.java.Before;
 import io.cucumber.java.en.*;
 
-@SpringBootTest(properties = "spring.main.allow-bean-definition-overriding=true")
+
+@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT, properties = "spring.main.allow-bean-definition-overriding=true")
+@ContextConfiguration(loader = SpringBootContextLoader.class)
 public class BookshopSteps {
 	
-	private static int port = Integer.parseInt(System.getProperty("server.port", "8080"));
+	@LocalServerPort
+	private int port;
 	
-	private static String baseUrl = "http://localhost:" + port;
+	private static String baseUrl = "http://localhost:";
 	
 	private WebDriver webDriver;
 	
 	@Autowired
-	UserRepository userRepository;
+	private UserRepository userRepository;
 	
 	@Autowired
-	BookRepository bookRepository;
+	private BookRepository bookRepository;
 	
 	@Before
 	public void setUpWebDriver() {
