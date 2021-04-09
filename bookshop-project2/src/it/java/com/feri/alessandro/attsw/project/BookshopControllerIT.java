@@ -35,7 +35,7 @@ import com.feri.alessandro.attsw.project.repositories.UserRepository;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
-public class BookshopWebControllerIT {
+public class BookshopControllerIT {
 	
 	private static final String EMPTY_MESSAGE = "";
 
