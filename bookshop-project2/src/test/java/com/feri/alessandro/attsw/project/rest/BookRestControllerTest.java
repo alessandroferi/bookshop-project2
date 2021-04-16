@@ -40,14 +40,6 @@ public class BookRestControllerTest {
 	@InjectMocks
 	private BookRestController bookRestController;
 	
-	/**
-	 * Initializes BookshopExceptionHanlder advice using the StaticApplicationContext with the single bean
-	 * 
-	 * @return HandlerExceptionResolver instantiated based on the BookshopExceptionHanlder
-	 * 
-	 * So, my BookshopExceptionHanlder is initialized using StaticApplicationContext and then I retrieve
-	 * handlerExceptionResolver from it and pass it into RestAssuredMockMvc standaloneSetup()
-	 */
 	private HandlerExceptionResolver initBookExceptionHandlerResolvers() {
 		StaticApplicationContext applicationContext = new StaticApplicationContext();
 		applicationContext.registerSingleton("exceptionHandler", BookshopRestExceptionHandler.class);

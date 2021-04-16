@@ -41,8 +41,7 @@
       ${project.build.sourceDirectory},
       ${basedir}/src/main/resources
     </sonar.sources>
-    	
-   <!-- Exclude non covered files -->  
+    	 
     <sonar.coverage.exclusions>
       **/*Application.*,
       **/*model/*,
@@ -67,18 +66,22 @@
   </properties>
 
   <dependencies>
+  
     <dependency>
 	  <groupId>org.springframework.boot</groupId>
 	  <artifactId>spring-boot-starter-actuator</artifactId>
 	</dependency>
+	
 	<dependency>
 	  <groupId>org.springframework.boot</groupId>
 	  <artifactId>spring-boot-starter-data-jpa</artifactId>
 	</dependency>
+	
 	<dependency>
 	  <groupId>org.springframework.boot</groupId>
 	  <artifactId>spring-boot-starter-thymeleaf</artifactId>
 	</dependency>
+	
 	<dependency>
 	  <groupId>org.springframework.boot</groupId>
 	  <artifactId>spring-boot-starter-web</artifactId>
@@ -89,34 +92,41 @@
 	  <artifactId>spring-boot-devtools</artifactId>
 	  <scope>runtime</scope>
 	</dependency>
+	
 	<dependency>
 	  <groupId>com.h2database</groupId>
 	  <artifactId>h2</artifactId>
 	  <scope>runtime</scope>
 	</dependency>
+	
 	<dependency>
 	  <groupId>org.springframework.boot</groupId>
 	  <artifactId>spring-boot-starter-test</artifactId>
 	  <scope>test</scope>
 	</dependency>
+	
 	<dependency>
 	  <groupId>io.rest-assured</groupId>
 	  <artifactId>spring-mock-mvc</artifactId>
 	  <scope>test</scope>
 	</dependency>
+	
 	<dependency>
 	  <groupId>org.springframework.boot</groupId>
 	  <artifactId>spring-boot-starter-security</artifactId>
 	</dependency>
+	
 	<dependency>
 	  <groupId>org.springframework.security</groupId>
 	  <artifactId>spring-security-test</artifactId>
 	  <scope>test</scope>
 	</dependency>
+	
 	<dependency>
   	  <groupId>org.springframework.boot</groupId>
 	  <artifactId>spring-boot-starter-data-mongodb</artifactId>
 	</dependency>
+	
     <dependency>
 	  <groupId>net.sourceforge.htmlunit</groupId>
 	  <artifactId>htmlunit</artifactId>
@@ -129,29 +139,34 @@
 	  <version>${cucumber.version}</version>
 	  <scope>test</scope>
 	</dependency>
+	
 	<dependency>
       <groupId>io.cucumber</groupId>
       <artifactId>cucumber-spring</artifactId>
       <version>${cucumber.version}</version>
       <scope>test</scope>
     </dependency>
+    
 	<dependency>
 	  <groupId>io.cucumber</groupId>
 	  <artifactId>cucumber-junit</artifactId>
 	  <version>${cucumber.version}</version>
 	  <scope>test</scope>
 	</dependency>
+	
 	<dependency>
       <groupId>org.seleniumhq.selenium</groupId>
       <artifactId>selenium-java</artifactId>
       <scope>test</scope>
     </dependency>
+    
 	<dependency>
 	  <groupId>io.github.bonigarcia</groupId>
       <artifactId>webdrivermanager</artifactId>
 	  <version>3.6.1</version>
       <scope>test</scope>
 	</dependency>
+	
   </dependencies>
 
   <build>
@@ -160,6 +175,7 @@
 	    <groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-maven-plugin</artifactId>
 	  </plugin>
+	  
 	  <plugin>
 	    <groupId>org.codehaus.mojo</groupId>
 	    <artifactId>build-helper-maven-plugin</artifactId>
@@ -193,6 +209,7 @@
 	      </execution>
 	    </executions>
 	  </plugin>
+	  
 	  <plugin>
 	    <groupId>org.apache.maven.plugins</groupId>
 	    <artifactId>maven-surefire-plugin</artifactId>
@@ -202,8 +219,9 @@
 	        <include>**/*Test.java</include>
 	      </includes>
 	    </configuration>
-	  </plugin>
+	  </plugin>  
 	</plugins>
+	
 	<pluginManagement>
 	  <plugins>
 	    <plugin>
@@ -221,6 +239,7 @@
 	        </execution>
 	      </executions>
 	    </plugin>
+	    
 	    <plugin>
 	      <groupId>org.jacoco</groupId>
 	      <artifactId>jacoco-maven-plugin</artifactId>
@@ -264,6 +283,7 @@
 	        </execution>
 	      </executions>
 	    </plugin>
+	    
 	    <plugin>
 	      <groupId>org.pitest</groupId>
 	      <artifactId>pitest-maven</artifactId>
@@ -293,6 +313,7 @@
 	        <mutationThreshold>100</mutationThreshold>
 	      </configuration>
 	    </plugin>
+	    
 	    <!-- You must run coveralls:report explicitly specifying that in travis.yml -->
 	    <plugin>
 	      <groupId>org.eluder.coveralls</groupId>
@@ -306,11 +327,13 @@
 	        </dependency>
 	      </dependencies>
 	    </plugin>
+	    
 	    <plugin>
 	      <groupId>org.sonarsource.scanner.maven</groupId>
 	      <artifactId>sonar-maven-plugin</artifactId>
 	      <version>3.7.0.1746</version>
 	    </plugin> 
+	    
 	    <plugin>
 	      <groupId>io.fabric8</groupId>
 	      <artifactId>docker-maven-plugin</artifactId>  

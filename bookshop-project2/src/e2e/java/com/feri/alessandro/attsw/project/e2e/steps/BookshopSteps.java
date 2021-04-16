@@ -6,11 +6,9 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootContextLoader;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.web.server.LocalServerPort;
-import org.springframework.test.context.ContextConfiguration;
 
 import com.feri.alessandro.attsw.project.repositories.BookRepository;
 import com.feri.alessandro.attsw.project.repositories.UserRepository;
@@ -19,9 +17,7 @@ import io.cucumber.java.After;
 import io.cucumber.java.Before;
 import io.cucumber.java.en.*;
 
-
-@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT, properties = "spring.main.allow-bean-definition-overriding=true")
-@ContextConfiguration(loader = SpringBootContextLoader.class)
+@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 public class BookshopSteps {
 	
 	@LocalServerPort
@@ -45,7 +41,7 @@ public class BookshopSteps {
 		bookRepository.deleteAll();
 		
 	}
-	
+
 	@After
 	public void closeBrowser() {
 		webDriver.quit();
