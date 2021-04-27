@@ -19,7 +19,6 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
-import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -35,7 +34,7 @@ import com.feri.alessandro.attsw.project.repositories.UserRepository;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
-public class BookshopControllerIT {
+public class BookshopWebControllerIT {
 	
 	private static final String EMPTY_MESSAGE = "";
 
@@ -47,9 +46,6 @@ public class BookshopControllerIT {
 	
 	@Autowired
 	private BookRepository bookRepository;
-	
-	@LocalServerPort
-	private int port;
 	
 	@Autowired
 	private WebApplicationContext context;
