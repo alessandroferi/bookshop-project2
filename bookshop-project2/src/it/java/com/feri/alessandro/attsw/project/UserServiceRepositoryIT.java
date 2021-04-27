@@ -59,7 +59,7 @@ public class UserServiceRepositoryIT {
 		saved.setUsername("username");
 		saved.setPassword("password");
 		
-		userService.saveUser(saved);
+		userRepository.save(saved);
 	
 		assertThatThrownBy(() -> 
 			userService.findUserByEmail("already_exist@gmail")).
@@ -75,7 +75,7 @@ public class UserServiceRepositoryIT {
 		saved.setUsername("username");
 		saved.setPassword("password");
 		
-		userService.saveUser(saved);
+		userRepository.save(saved);
 		
 		assertThatThrownBy(() ->
 				userService.findUserByUsername("username")).
@@ -94,6 +94,7 @@ public class UserServiceRepositoryIT {
 		
 		userService.saveUser(toInsert);
 		
+		assertThat(userRepository.findAll().size()).isEqualTo(1);
 		assertThat(userRepository.findAll().get(0).getEmail()).isEqualTo("email@gmail");
 		assertThat(userRepository.findAll().get(0).getUsername()).isEqualTo("username");
 		assertThat(userRepository.findAll().get(0).getPassword().equals("password")).isFalse();
@@ -108,7 +109,7 @@ public class UserServiceRepositoryIT {
 		saved.setUsername("saved_username");
 		saved.setPassword("saved_passowrd");
 		
-		userService.saveUser(saved);
+		userRepository.save(saved);
 		
 		assertThatCode(() -> userService.loadUserByUsername("saved_username")).doesNotThrowAnyException();
 		
@@ -125,9 +126,13 @@ public class UserServiceRepositoryIT {
 		not_saved.setPassword("not_saved");
 		
 		assertThatThrownBy(() -> 
-				userService.loadUserByUsername("username_not_saved")).
-					isInstanceOf(UsernameNotFoundException.class).
-						hasMessage("user not found");	
+		userService.loadUserByUsername("username_not_saved")).
+			isInstanceOf(UsernameNotFoundException.class).
+				hasMessage("user not found");
+		
+		assertThat(userRepository.findByUsername("username_not_saved")).isEmpty();
+		assertThat(userRepository.findByEmail("not_saved@gmail")).isEmpty();
+		
 	}
 	
 	

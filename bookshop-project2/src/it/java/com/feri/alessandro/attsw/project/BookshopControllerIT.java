@@ -86,7 +86,7 @@ public class BookshopControllerIT {
 	}
 	
 	@Test
-	public void test_returnRegiatrationPageView() throws Exception {
+	public void test_returnRegistrationPageView() throws Exception {
 		ModelAndViewAssert.assertViewName(
 				mvc.perform(get("/registration")).
 					andReturn().getModelAndView(), "registration");
