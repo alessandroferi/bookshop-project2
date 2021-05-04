@@ -1,5 +1,6 @@
 package com.feri.alessandro.attsw.project.web;
 
+import java.math.BigInteger;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -74,7 +75,7 @@ public class BookshopWebController {
 	}
 
 	@GetMapping("/edit/{id}")
-	public ModelAndView editBookById(@PathVariable Long id, Model model) throws BookNotFoundException {
+	public ModelAndView editBookById(@PathVariable BigInteger id, Model model) throws BookNotFoundException {
 		Book book = bookService.getBookById(id);
 		model.addAttribute("book", book);
 		model.addAttribute(MESSAGE, EMPTY_MESSAGE);
@@ -98,7 +99,7 @@ public class BookshopWebController {
 		book.setAuthor(bookDTO.getAuthor());
 		book.setPrice(bookDTO.getPrice());
 		
-		Long id = book.getId();
+		BigInteger id = book.getId();
 		if(id == null) {
 			bookService.insertNewBook(book);
 		} else {
@@ -124,7 +125,7 @@ public class BookshopWebController {
 	}
 	
 	@GetMapping("/delete")
-	public ModelAndView deleteBook(@RequestParam("id") Long id, Model model) throws BookNotFoundException {
+	public ModelAndView deleteBook(@RequestParam("id") BigInteger id, Model model) throws BookNotFoundException {
 		Book toDelete = bookService.getBookById(id);
 		bookService.deleteOneBook(toDelete);
 		

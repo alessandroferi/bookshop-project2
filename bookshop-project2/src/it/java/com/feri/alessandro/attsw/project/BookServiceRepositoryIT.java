@@ -1,10 +1,12 @@
 package com.feri.alessandro.attsw.project;
 
 import static org.assertj.core.api.Assertions.assertThat;
+
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -14,7 +16,7 @@ import com.feri.alessandro.attsw.project.repositories.BookRepository;
 import com.feri.alessandro.attsw.project.services.BookService;
 
 @RunWith(SpringRunner.class)
-@DataJpaTest
+@SpringBootTest
 @Import(BookService.class)
 public class BookServiceRepositoryIT {
 	
@@ -23,6 +25,11 @@ public class BookServiceRepositoryIT {
 	
 	@Autowired
 	private BookRepository bookRepository;
+	
+	@Before
+	public void setUp() {
+		bookRepository.deleteAll();
+	}
 	
 	@Test
 	public void test_serviceCanInsertIntoRepository() {
@@ -40,7 +47,7 @@ public class BookServiceRepositoryIT {
 		
 		Book result = bookService.editBookById(saved.getId(), updated);
 		
-		assertThat(bookRepository.findById(saved.getId()).get()).isSameAs(result);
+		assertThat(bookRepository.findById(saved.getId()).get()).isEqualTo(result);
 	}
 	
 	@Test

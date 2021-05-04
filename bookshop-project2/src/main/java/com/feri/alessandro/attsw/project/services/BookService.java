@@ -1,5 +1,6 @@
 package com.feri.alessandro.attsw.project.services;
 
+import java.math.BigInteger;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -23,7 +24,7 @@ public class BookService {
 		return bookRepository.findAll();
 	}
 	
-	public Book getBookById(Long id) throws BookNotFoundException {
+	public Book getBookById(BigInteger id) throws BookNotFoundException {
 		return bookRepository.findById(id).
 				orElseThrow(() -> new BookNotFoundException(BOOK_NOT_FOUND));
 	}
@@ -38,7 +39,7 @@ public class BookService {
 		return bookRepository.save(book);
 	}
 	
-	public Book editBookById(Long id, Book replacementBook) throws BookNotFoundException {
+	public Book editBookById(BigInteger id, Book replacementBook) throws BookNotFoundException {
 		sanityCheck(id);
 		replacementBook.setId(id);
 		return bookRepository.save(replacementBook);
@@ -54,7 +55,7 @@ public class BookService {
 		
 	}
 	
-	private void sanityCheck(Long id) throws BookNotFoundException {
+	private void sanityCheck(BigInteger id) throws BookNotFoundException {
 		getBookById(id);
 	}
 
