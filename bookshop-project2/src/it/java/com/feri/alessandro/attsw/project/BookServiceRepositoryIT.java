@@ -1,6 +1,7 @@
 package com.feri.alessandro.attsw.project;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.Assert.assertEquals;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -47,7 +48,7 @@ public class BookServiceRepositoryIT {
 		
 		Book result = bookService.editBookById(saved.getId(), updated);
 		
-		assertThat(bookRepository.findById(saved.getId()).get()).isEqualTo(result);
+		assertEquals(result, bookRepository.findById(saved.getId()).get());
 	}
 	
 	@Test
