@@ -68,8 +68,12 @@ Feature: Operations inside the bookshop site
 		
 	Scenario: Delete All books from the table
 		When I click the "Insert" button
-		And I insert "TestTitleForDeleteAll" in title field, "TestAuthorForDeleteAll" in author field and "50" in price field 
+		And I insert "FirstTestTitleForDeleteAll" in title field, "FirstTestAuthorForDeleteAll" in author field and "50" in price field 
 		And I click the "Save" button
-		Then The "Book Table" is shown and it contains a book with "TestTitleForDeleteAll", "TestAuthorForDeleteAll", and price "50"
+		Then The "Book Table" is shown and it contains a book with "FirstTestTitleForDeleteAll", "FirstTestAuthorForDeleteAll", and price "50"
+		When I click the "Insert" button
+		And I insert "SecondTestTitleForDeleteAll" in title field, "SecondTestAuthorForDeleteAll" in author field and "40" in price field 
+		And I click the "Save" button
+		Then The "Book Table" is shown and it contains a book with "SecondTestTitleForDeleteAll", "SecondTestAuthorForDeleteAll", and price "40"
 		When I click the "Delete All" button
 		Then "There are no books" message is shown
