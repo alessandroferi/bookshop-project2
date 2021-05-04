@@ -1,5 +1,6 @@
 package com.feri.alessandro.attsw.project.rest;
 
+import java.math.BigInteger;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +31,7 @@ public class BookRestController {
 	}
 	
 	@GetMapping("/id/{id}")
-	public Book getBookById(@PathVariable Long id) throws BookNotFoundException {
+	public Book getBookById(@PathVariable BigInteger id) throws BookNotFoundException {
 		return bookService.getBookById(id);
 	}
 	
@@ -50,7 +51,7 @@ public class BookRestController {
 	}
 	
 	@PutMapping("/edit/{id}")
-	public Book editBookById(@PathVariable Long id, @RequestBody BookDTO replacementBookDTO) throws BookNotFoundException {
+	public Book editBookById(@PathVariable BigInteger id, @RequestBody BookDTO replacementBookDTO) throws BookNotFoundException {
 		Book replacementBook = new Book();
 		replacementBook.setTitle(replacementBookDTO.getTitle());
 		replacementBook.setAuthor(replacementBookDTO.getAuthor());
@@ -60,7 +61,7 @@ public class BookRestController {
 	}
 	
 	@DeleteMapping("/delete/{id}")
-	public void deleteBookById(@PathVariable Long id) throws BookNotFoundException {
+	public void deleteBookById(@PathVariable BigInteger id) throws BookNotFoundException {
 		Book toDelete = bookService.getBookById(id);
 		bookService.deleteOneBook(toDelete);
 	}
