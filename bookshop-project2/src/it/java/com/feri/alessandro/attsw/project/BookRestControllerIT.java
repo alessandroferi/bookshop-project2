@@ -37,8 +37,7 @@ public class BookRestControllerIT {
 	@Before
 	public void setUp() {
 		RestAssured.port = port;
-		bookRepository.deleteAll();
-		bookRepository.flush();
+		bookRepository.deleteAll();		
 	}
 	
 	

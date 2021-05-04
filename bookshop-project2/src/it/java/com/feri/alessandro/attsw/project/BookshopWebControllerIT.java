@@ -9,6 +9,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
+import java.math.BigInteger;
 import java.util.Collections;
 import java.util.List;
 
@@ -63,8 +64,6 @@ public class BookshopWebControllerIT {
 		
 		userRepository.deleteAll();
 		bookRepository.deleteAll();
-		bookRepository.flush();
-		
 	}
 	
 	@After
@@ -186,7 +185,7 @@ public class BookshopWebControllerIT {
 		
 		bookRepository.save(saved);
 		
-		Long id = bookRepository.findAll().get(0).getId();
+		BigInteger id = bookRepository.findAll().get(0).getId();
 		
 		mvc.perform(get("/edit/" + id)).
 			andExpect(view().name("edit")).
@@ -241,7 +240,7 @@ public class BookshopWebControllerIT {
 		
 		assertEquals(bookRepository.findAll().size(), 1);
 		
-		Long id = bookRepository.findAll().get(0).getId();
+		BigInteger id = bookRepository.findAll().get(0).getId();
 		
 		mvc.perform(post("/save")
 				.param("id", id.toString())
@@ -293,7 +292,7 @@ public class BookshopWebControllerIT {
 		
 		assertThat(bookRepository.findAll()).containsExactly(saved);
 		
-		Long id = bookRepository.findAll().get(0).getId();
+		BigInteger id = bookRepository.findAll().get(0).getId();
 		
 		mvc.perform(get("/delete?id=" + id)).
 			andExpect(view().name("redirect:/"));
