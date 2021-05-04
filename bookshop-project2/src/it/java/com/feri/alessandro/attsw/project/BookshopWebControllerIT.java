@@ -94,12 +94,12 @@ public class BookshopWebControllerIT {
 				.param("username", "test")
 				.param("password", "password")).andReturn().getModelAndView(), "registrationResult");
 		
-		assertEquals(userRepository.findAll().size(), 1);
+		assertEquals(1, userRepository.findAll().size());
 		
 		User saved = userRepository.findAll().get(0);
 		
-		assertEquals(saved.getEmail(), "email@gmail");
-		assertEquals(saved.getUsername(), "test");
+		assertEquals("email@gmail", saved.getEmail());
+		assertEquals("test", saved.getUsername());
 		assertThat(bCryptPasswordEncoder.matches("password", saved.getPassword()));
 		
 	}
@@ -118,7 +118,7 @@ public class BookshopWebControllerIT {
 				.param("username", "user")
 				.param("password", "pass")).andReturn().getModelAndView(), "registrationResult");
 		
-		assertEquals(userRepository.findAll().size(), 1);
+		assertEquals(1, userRepository.findAll().size());
 		assertThat(userRepository.findAll()).containsExactly(saved);
 		
 		
@@ -138,7 +138,7 @@ public class BookshopWebControllerIT {
 				.param("username", "already_exist")
 				.param("password", "pass")).andReturn().getModelAndView(), "registrationResult");
 		
-		assertEquals(userRepository.findAll().size(), 1);
+		assertEquals(1, userRepository.findAll().size());
 		assertThat(userRepository.findAll()).containsExactly(saved);
 	}
 	
@@ -228,7 +228,7 @@ public class BookshopWebControllerIT {
 				.param("price", "10.0")).
 			andExpect(view().name("redirect:/"));
 		
-		assertEquals(bookRepository.findAll().size(), 1);
+		assertEquals(1, bookRepository.findAll().size());
 	}
 	
 	@Test
@@ -238,7 +238,7 @@ public class BookshopWebControllerIT {
 		
 		bookRepository.save(saved);
 		
-		assertEquals(bookRepository.findAll().size(), 1);
+		assertEquals(1, bookRepository.findAll().size());
 		
 		BigInteger id = bookRepository.findAll().get(0).getId();
 		
@@ -249,7 +249,7 @@ public class BookshopWebControllerIT {
 				.param("price", "15.0")).
 			andExpect(view().name("redirect:/"));
 		
-		assertEquals(bookRepository.findAll().size(), 1);
+		assertEquals(1, bookRepository.findAll().size());
 		
 		Book updated = bookRepository.findAll().get(0);
 		
@@ -310,7 +310,7 @@ public class BookshopWebControllerIT {
 		
 		bookRepository.saveAll(books);
 		
-		assertEquals(bookRepository.findAll().size(), 3);
+		assertEquals(3, bookRepository.findAll().size());
 		
 		mvc.perform(get("/deleteAll")).
 			andExpect(view().name("redirect:/"));
