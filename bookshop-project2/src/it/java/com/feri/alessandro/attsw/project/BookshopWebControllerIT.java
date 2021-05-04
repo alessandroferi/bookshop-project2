@@ -4,6 +4,7 @@ import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
@@ -100,7 +101,7 @@ public class BookshopWebControllerIT {
 		
 		assertEquals("email@gmail", saved.getEmail());
 		assertEquals("test", saved.getUsername());
-		assertThat(bCryptPasswordEncoder.matches("password", saved.getPassword()));
+		assertTrue(bCryptPasswordEncoder.matches("password", saved.getPassword()));
 		
 	}
 	
