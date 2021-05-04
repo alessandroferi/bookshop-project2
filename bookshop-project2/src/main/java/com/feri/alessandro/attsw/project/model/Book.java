@@ -1,19 +1,20 @@
 package com.feri.alessandro.attsw.project.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import java.math.BigInteger;
 
-@Entity
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+
+@Document(collection = "book")
 public class Book {
-	
-	@Id @GeneratedValue
-	private Long id;
+
+	@Id
+	private BigInteger id;
 	private String title;
 	private String author;
 	private double price;
 
-	public Book(Long id, String title, String author, double price) {
+	public Book(BigInteger id, String title, String author, double price) {
 		super();
 		this.id = id;
 		this.title = title;
@@ -25,11 +26,11 @@ public class Book {
 		
 	}
 
-	public Long getId() {
+	public BigInteger getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(BigInteger id) {
 		this.id = id;
 	}
 
@@ -103,9 +104,6 @@ public class Book {
 			return false;
 		return true;
 	}
-
-
 	
 	
-
 }
