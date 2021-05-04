@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -97,8 +98,8 @@ public class UserServiceRepositoryIT {
 		assertThat(userRepository.findAll().size()).isEqualTo(1);
 		assertThat(userRepository.findAll().get(0).getEmail()).isEqualTo("email@gmail");
 		assertThat(userRepository.findAll().get(0).getUsername()).isEqualTo("username");
-		assertThat(userRepository.findAll().get(0).getPassword().equals("password")).isFalse();
-		assertThat(bCryptPasswordEncoder.matches("password", userRepository.findAll().get(0).getPassword()));	
+		assertThat(userRepository.findAll().get(0).getPassword()).isNotEqualTo("password");
+		assertTrue(bCryptPasswordEncoder.matches("password", userRepository.findAll().get(0).getPassword()));	
 	}
 	
 	@Test
@@ -133,11 +134,6 @@ public class UserServiceRepositoryIT {
 		assertThat(userRepository.findByUsername("username_not_saved")).isEmpty();
 		assertThat(userRepository.findByEmail("not_saved@gmail")).isEmpty();
 		
-	}
-	
-	
-
- 	
-	
+	}	
 	
 }
