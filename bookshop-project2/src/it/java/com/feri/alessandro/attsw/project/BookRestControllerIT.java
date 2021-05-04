@@ -4,6 +4,7 @@ import static io.restassured.RestAssured.given;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertEquals;
 import static java.util.Arrays.asList;
 
 import java.util.List;
@@ -75,7 +76,7 @@ public class BookRestControllerIT {
 		
 		Book result = response.getBody().as(Book.class);
 		
-		assertThat(bookRepository.findById(result.getId()).get()).isEqualTo(saved);
+		assertEquals(saved, bookRepository.findById(result.getId()).get());
 	}
 	
 	
@@ -90,7 +91,7 @@ public class BookRestControllerIT {
 		
 		Book result = response.getBody().as(Book.class);
 		
-		assertThat(bookRepository.findByTitle(result.getTitle()).get()).isEqualTo(saved);
+		assertEquals(saved, bookRepository.findByTitle(result.getTitle()).get());
 	}
 	
 	@Test
@@ -103,7 +104,7 @@ public class BookRestControllerIT {
 		
 		Book saved = response.getBody().as(Book.class);
 		
-		assertThat(bookRepository.findById(saved.getId()).get()).isEqualTo(saved);
+		assertEquals(saved, bookRepository.findById(saved.getId()).get());
 	}
 	
 	
@@ -119,7 +120,7 @@ public class BookRestControllerIT {
 		
 		Book editedBook = response.getBody().as(Book.class);
 		
-		assertThat(bookRepository.findById(editedBook.getId()).get()).isEqualTo(editedBook);		
+		assertEquals(editedBook, bookRepository.findById(editedBook.getId()).get());		
 	}
 
 	
