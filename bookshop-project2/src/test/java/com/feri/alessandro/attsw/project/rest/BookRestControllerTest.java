@@ -5,9 +5,7 @@ import static io.restassured.module.mockmvc.RestAssuredMockMvc.given;
 import static org.hamcrest.CoreMatchers.*;
 import static org.mockito.Mockito.*;
 
-import static org.mockito.ArgumentMatchers.anyLong;
-
-
+import java.math.BigInteger;
 import java.util.Collections;
 
 import org.junit.Before;
@@ -81,8 +79,8 @@ public class BookRestControllerTest {
 	
 	@Test
 	public void testGET_allBooksNotEmpty() {
-		Book testBook1 = new Book(1L, "firstTitle", "author1", 7.0);
-		Book testBook2 = new Book(2L, "secondTitle", "author2", 9.0);
+		Book testBook1 = new Book(BigInteger.valueOf(1), "firstTitle", "author1", 7.0);
+		Book testBook2 = new Book(BigInteger.valueOf(2), "secondTitle", "author2", 9.0);
 		when(bookService.getAllBooks()).thenReturn(asList(testBook1, testBook2));
 		
 		given().
@@ -108,7 +106,7 @@ public class BookRestControllerTest {
 	
 	@Test
 	public void testGET_getBookById_WithNonExistingId() throws BookNotFoundException {
-		when(bookService.getBookById(anyLong())).thenThrow(BookNotFoundException.class);
+		when(bookService.getBookById(BigInteger.valueOf(1))).thenThrow(BookNotFoundException.class);
 		
 		given().
 		when().
@@ -119,14 +117,14 @@ public class BookRestControllerTest {
 				body(is(equalTo(BOOK_NOT_FOUND))
 			);
 		
-		verify(bookService, times(1)).getBookById(anyLong());
+		verify(bookService, times(1)).getBookById(BigInteger.valueOf(1));
 		verifyNoMoreInteractions(bookService);
 	}
 	
 	@Test
 	public void testGET_getBookById_WithExistingId() throws BookNotFoundException {
-		when(bookService.getBookById(anyLong())).
-				thenReturn(new Book(1L, "testTitle", "author1", 7.0));
+		when(bookService.getBookById(BigInteger.valueOf(1))).
+				thenReturn(new Book(BigInteger.valueOf(1), "testTitle", "author1", 7.0));
 		
 		given().
 		when().
@@ -141,7 +139,7 @@ public class BookRestControllerTest {
 				     "price", equalTo(7.0f)
 				);
 		
-		verify(bookService, times(1)).getBookById(1L);
+		verify(bookService, times(1)).getBookById(BigInteger.valueOf(1));
 		verifyNoMoreInteractions(bookService);
 	}
 	
@@ -164,7 +162,7 @@ public class BookRestControllerTest {
 	@Test
 	public void test_getBookByTitle_WithExistingTitle() throws BookNotFoundException {
 		when(bookService.getBookByTitle(anyString())).
-			thenReturn(new Book(1L, "testTitle", "author1", 10.0));
+			thenReturn(new Book(BigInteger.valueOf(1), "testTitle", "author1", 10.0));
 		
 		given().
 		when().
@@ -187,7 +185,7 @@ public class BookRestControllerTest {
 	public void testPOST_insertNewBook() {
 		Book requesBodyBook = new Book(null, "testTitle", "author1", 7.0);
 		when(bookService.insertNewBook(requesBodyBook)).
-			thenReturn(new Book(1L, "testTitle", "author1", 7.0));
+			thenReturn(new Book(BigInteger.valueOf(1), "testTitle", "author1", 7.0));
 		
 		given().
 			contentType(MediaType.APPLICATION_JSON_VALUE).
@@ -209,7 +207,7 @@ public class BookRestControllerTest {
 	@Test
 	public void testPUT_editBookById_WithNonExistingId() throws BookNotFoundException {
 		Book book = new Book(null, "testTitle", "author1", 0.0);
-		when(bookService.editBookById(1L, book)).thenThrow(BookNotFoundException.class);
+		when(bookService.editBookById(BigInteger.valueOf(1), book)).thenThrow(BookNotFoundException.class);
 		
 		given().
 			contentType(MediaType.APPLICATION_JSON_VALUE).
@@ -221,14 +219,14 @@ public class BookRestControllerTest {
 			assertThat().
 				body(is(equalTo(BOOK_NOT_FOUND)));
 		
-		verify(bookService, times(1)).editBookById(1L, book);	
+		verify(bookService, times(1)).editBookById(BigInteger.valueOf(1), book);	
 	}
 	
 	@Test
 	public void testPUT_editBookById_WithExistingId() throws BookNotFoundException {
 		Book requestBodyBook = new Book(null, "testTitle", "author1", 10.0);
-		when(bookService.editBookById(1L, requestBodyBook)).
-			thenReturn(new Book(1L, "testTitle", "author1", 10.0));
+		when(bookService.editBookById(BigInteger.valueOf(1), requestBodyBook)).
+			thenReturn(new Book(BigInteger.valueOf(1), "testTitle", "author1", 10.0));
 		
 		given().
 			contentType(MediaType.APPLICATION_JSON_VALUE).
@@ -244,13 +242,13 @@ public class BookRestControllerTest {
 				 "price", equalTo(10.0f)
 				);
 		
-		verify(bookService, times(1)).editBookById(1L, requestBodyBook);
+		verify(bookService, times(1)).editBookById(BigInteger.valueOf(1), requestBodyBook);
 		verifyNoMoreInteractions(bookService);
 	}
 	
 	@Test
 	public void testDELETE_deleteBookById_WithNonExistingId() throws BookNotFoundException {
-		when(bookService.getBookById(anyLong())).thenThrow(BookNotFoundException.class);
+		when(bookService.getBookById(BigInteger.valueOf(1))).thenThrow(BookNotFoundException.class);
 		
 		given().
 		when().
@@ -261,13 +259,13 @@ public class BookRestControllerTest {
 				body(is(equalTo(BOOK_NOT_FOUND))
 			);
 		
-		verify(bookService, times(1)).getBookById(1L);
+		verify(bookService, times(1)).getBookById(BigInteger.valueOf(1));
 	}
 	
 	@Test
 	public void testDELETE_deleteBookById() throws BookNotFoundException {
-		Book bookToDelete = new Book(1L, "testTitle", "author1", 10.0);
-		when(bookService.getBookById(1L)).thenReturn(bookToDelete);
+		Book bookToDelete = new Book(BigInteger.valueOf(1), "testTitle", "author1", 10.0);
+		when(bookService.getBookById(BigInteger.valueOf(1))).thenReturn(bookToDelete);
 		
 		given().
 		when().
@@ -275,7 +273,7 @@ public class BookRestControllerTest {
 		then().
 			statusCode(200);
 		
-		verify(bookService, times(1)).getBookById(1L);
+		verify(bookService, times(1)).getBookById(BigInteger.valueOf(1));
 		verify(bookService, times(1)).deleteOneBook(bookToDelete);
 	}
 	

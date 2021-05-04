@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
 import static java.util.Arrays.asList;
 
+import java.math.BigInteger;
 import java.util.Collections;
 import java.util.List;
 
@@ -198,7 +199,7 @@ public class BookshopWebViewsHtmlUnitTest {
 	@WithMockUser
 	public void test_homePageWithBooks_shouldShowThemInATable() throws Exception {
 		List<Book> books = asList(
-				new Book(1L, "title1", "author1", 10.0), new Book(2L, "title2", "author2", 15.0));
+				new Book(BigInteger.valueOf(1), "title1", "author1", 10.0), new Book(BigInteger.valueOf(2), "title2", "author2", 15.0));
 		
 		when(bookService.getAllBooks()).thenReturn(books);
 		
@@ -222,8 +223,8 @@ public class BookshopWebViewsHtmlUnitTest {
 	
 	@Test
 	public void test_Edit_And_New_PageStructure() throws Exception {
-		when(bookService.getBookById(1L)).
-		thenReturn(new Book(1L, "title", "author", 10.0));
+		when(bookService.getBookById(BigInteger.valueOf(1))).
+		thenReturn(new Book(BigInteger.valueOf(1), "title", "author", 10.0));
 	
 		HtmlPage page = webClient.getPage("/edit/1");
 		
@@ -241,7 +242,7 @@ public class BookshopWebViewsHtmlUnitTest {
 	@Test
 	@WithMockUser
 	public void test_editWithNonExistentBook_shouldReturnBookNotFound () throws Exception {
-		when(bookService.getBookById(1L)).thenThrow(BookNotFoundException.class);
+		when(bookService.getBookById(BigInteger.valueOf(1))).thenThrow(BookNotFoundException.class);
 		webClient.getOptions().setThrowExceptionOnFailingStatusCode(false);
 		
 		HtmlPage page = webClient.getPage("/edit/1");
@@ -255,8 +256,8 @@ public class BookshopWebViewsHtmlUnitTest {
 	@Test
 	@WithMockUser
 	public void test_editWithExistentBook() throws Exception {
-		when(bookService.getBookById(1L)).
-			thenReturn(new Book(1L, "title", "author", 10.0));
+		when(bookService.getBookById(BigInteger.valueOf(1))).
+			thenReturn(new Book(BigInteger.valueOf(1), "title", "author", 10.0));
 		
 		HtmlPage page = webClient.getPage("/edit/1");
 		
@@ -269,7 +270,7 @@ public class BookshopWebViewsHtmlUnitTest {
 		form.getButtonByName("Save").click();
 		
 		verify(bookService, times(1))
-			.editBookById(1L, new Book(1L, "modified_title", "modified_author", 15.0));
+			.editBookById(BigInteger.valueOf(1), new Book(BigInteger.valueOf(1), "modified_title", "modified_author", 15.0));
 	}
 	
 	@Test
@@ -325,7 +326,7 @@ public class BookshopWebViewsHtmlUnitTest {
 	@Test
 	@WithMockUser
 	public void test_searchView_WhenBookIsFound() throws Exception {
-		Book found = new Book(1L, "test_title", "author", 10.0);
+		Book found = new Book(BigInteger.valueOf(1), "test_title", "author", 10.0);
 		when(bookService.getBookByTitle("test_title")).thenReturn(found);
 		
 		HtmlPage page = webClient.getPage("/");
@@ -350,16 +351,16 @@ public class BookshopWebViewsHtmlUnitTest {
 	@Test
 	@WithMockUser
 	public void testDelete() throws Exception {
-		Book book = new Book(1L, "title1", "author1", 10.0);
+		Book book = new Book(BigInteger.valueOf(1), "title1", "author1", 10.0);
 		List<Book> books = asList(book);
 		
 		when(bookService.getAllBooks()).thenReturn(books);
-		when(bookService.getBookById(1L)).thenReturn(book);
+		when(bookService.getBookById(BigInteger.valueOf(1))).thenReturn(book);
 		
 		HtmlPage page = webClient.getPage("/");
 		page.getAnchorByHref("/delete?id=1").click();
 		
-		verify(bookService).getBookById(1L);
+		verify(bookService).getBookById(BigInteger.valueOf(1));
 		verify(bookService).deleteOneBook(book);
 	}
 	

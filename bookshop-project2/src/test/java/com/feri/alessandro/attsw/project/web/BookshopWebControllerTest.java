@@ -6,6 +6,7 @@ import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+import java.math.BigInteger;
 import java.util.Collections;
 import java.util.List;
 
@@ -165,7 +166,7 @@ public class BookshopWebControllerTest {
 	 @Test
 	 @WithMockUser
 	 public void test_editBookById_WhenIdIsNotFound() throws Exception {
-		 when(bookService.getBookById(1L)).thenThrow(BookNotFoundException.class);
+		 when(bookService.getBookById(BigInteger.valueOf(1))).thenThrow(BookNotFoundException.class);
 		 
 		 mvc.perform(get("/edit/1"))
 		 	.andExpect(view().name("bookNotFound"))
@@ -173,23 +174,23 @@ public class BookshopWebControllerTest {
 		 	.andExpect(model().attribute("message", BOOK_NOT_FOUND))
 		 	.andExpect(status().is(404));
 		 
-		 verify(bookService, times(1)).getBookById(1L);
+		 verify(bookService, times(1)).getBookById(BigInteger.valueOf(1));
 		 verifyNoMoreInteractions(bookService);
 	 }
 	 
 	 @Test
 	 @WithMockUser
 	 public void test_editBookById_WhenIdIsFound() throws Exception {
-		 Book found = new Book(1L, "title", "author", 10.0);
+		 Book found = new Book(BigInteger.valueOf(1), "title", "author", 10.0);
 		 
-		 when(bookService.getBookById(1L)).thenReturn(found);
+		 when(bookService.getBookById(BigInteger.valueOf(1))).thenReturn(found);
 		 
 		 mvc.perform(get("/edit/1"))
 		 	.andExpect(view().name("edit"))
 		 	.andExpect(model().attribute("book", found))
 		 	.andExpect(model().attribute("message", EMPTY_MESSAGE));
 		 
-		 verify(bookService, times(1)).getBookById(1L);
+		 verify(bookService, times(1)).getBookById(BigInteger.valueOf(1));
 		 verifyNoMoreInteractions(bookService);
 		 
 	 }
@@ -230,16 +231,16 @@ public class BookshopWebControllerTest {
 		 	.andExpect(view().name("redirect:/"));
 
 		 verify(bookService, times(1)).editBookById(
-				 1L, new Book(1L, "testedTitle", "testedAuthor", 10.0));
+				 BigInteger.valueOf(1), new Book(BigInteger.valueOf(1), "testedTitle", "testedAuthor", 10.0));
 		 verifyNoMoreInteractions(bookService);
 	 }
 	 
 	 @Test
 	 @WithMockUser
 	 public void test_PostBookWhenIdNotFound() throws Exception {
-		 Book replacement = new Book(1L, "title", "author", 10.0);
+		 Book replacement = new Book(BigInteger.valueOf(1), "title", "author", 10.0);
 		 
-		 when(bookService.editBookById(1L, replacement)).thenThrow(BookNotFoundException.class);
+		 when(bookService.editBookById(BigInteger.valueOf(1), replacement)).thenThrow(BookNotFoundException.class);
 		 
 		 mvc.perform(post("/save")
 				 .param("id", "1")
@@ -251,7 +252,7 @@ public class BookshopWebControllerTest {
 		 	.andExpect(model().attribute("message", BOOK_NOT_FOUND))
 		 	.andExpect(status().is(404));	 	
 		 
-		 verify(bookService, times(1)).editBookById(1L, replacement);
+		 verify(bookService, times(1)).editBookById(BigInteger.valueOf(1), replacement);
 		 verifyNoMoreInteractions(bookService);
 	 }
 	 
@@ -260,7 +261,7 @@ public class BookshopWebControllerTest {
 	 public void test_Search_ShouldShowSearchedBook() throws Exception {
 		 String search = "title";
 		 
-		 Book searched =  new Book(1L, "title", "author", 10.0);
+		 Book searched =  new Book(BigInteger.valueOf(1), "title", "author", 10.0);
 		 
 		 when(bookService.getBookByTitle(search)).thenReturn(searched);
 		 
@@ -306,28 +307,28 @@ public class BookshopWebControllerTest {
 	 @Test
 	 @WithMockUser
 	 public void test_deleteBook() throws Exception {
-		 Book toDelete = new Book(1L, "title", "author", 10.0);
+		 Book toDelete = new Book(BigInteger.valueOf(1), "title", "author", 10.0);
 		 
-		 when(bookService.getBookById(1L)).thenReturn(toDelete);
+		 when(bookService.getBookById(BigInteger.valueOf(1))).thenReturn(toDelete);
 		 
 		 mvc.perform(get("/delete?id=1"))
 		 	.andExpect(view().name("redirect:/"));
 		 
-		 verify(bookService, times(1)).getBookById(1L);
+		 verify(bookService, times(1)).getBookById(BigInteger.valueOf(1));
 		 verify(bookService, times(1)).deleteOneBook(toDelete);
 	 }
 	 
 	 @Test
 	 @WithMockUser
 	 public void test_deleteBook_whenBookNotFound() throws Exception {
-		 when(bookService.getBookById(1L)).thenThrow(BookNotFoundException.class);
+		 when(bookService.getBookById(BigInteger.valueOf(1))).thenThrow(BookNotFoundException.class);
 		 
 		 mvc.perform(get("/delete?id=1"))
 		 	.andExpect(view().name("bookNotFound"))
 		 	.andExpect(model().attribute("message", BOOK_NOT_FOUND))
 		 	.andExpect(status().is(404));
 		 
-		 verify(bookService, times(1)).getBookById(1L);
+		 verify(bookService, times(1)).getBookById(BigInteger.valueOf(1));
 		 verifyNoMoreInteractions(bookService);
 	 }
 	 
