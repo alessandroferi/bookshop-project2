@@ -5,9 +5,6 @@ dist: xenial
 git:
   depth: false
 
-node_js:
-  - "10"
-
 addons:
   sonarcloud:
     organization: "alessandroferi"
