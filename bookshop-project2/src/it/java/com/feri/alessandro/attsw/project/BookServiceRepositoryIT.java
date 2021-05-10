@@ -8,7 +8,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.Import;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.feri.alessandro.attsw.project.exception.BookNotFoundException;
@@ -18,7 +17,6 @@ import com.feri.alessandro.attsw.project.services.BookService;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-@Import(BookService.class)
 public class BookServiceRepositoryIT {
 	
 	@Autowired
