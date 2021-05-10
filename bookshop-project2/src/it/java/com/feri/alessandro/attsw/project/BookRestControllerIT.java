@@ -5,9 +5,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertEquals;
-import static java.util.Arrays.asList;
 
-import java.util.List;
+import static java.util.Arrays.asList;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -43,7 +42,7 @@ public class BookRestControllerIT {
 	
 	
 	@Test
-	public void test_getAllBooksFromNotEmptyRepository() {
+	public void test_getAllBooks_WithNotEmptyRepository() {
 		bookRepository.saveAll(
 				asList(
 					new Book(null, "title1", "author1", 10.0), new Book(null, "title2", "author2", 15.0)));
@@ -66,7 +65,7 @@ public class BookRestControllerIT {
 	
 	
 	@Test
-	public void test_getBookByIdWithExistingBookInTheRepository() {
+	public void test_getBookById_WithExistingBookInTheRepository() {
 		Book saved = bookRepository.save(new Book(null, "title", "author", 10.0));
 		
 		Response response = 
@@ -95,7 +94,7 @@ public class BookRestControllerIT {
 	}
 	
 	@Test
-	public void test_NewBook() {
+	public void test_newBook() {
 		Response response = given().
 					contentType(MediaType.APPLICATION_JSON_VALUE).
 					body(new Book(null, "title", "author", 10.0)).
@@ -103,29 +102,35 @@ public class BookRestControllerIT {
 					post("/api/books/new");
 		
 		Book saved = response.getBody().as(Book.class);
-		
+
+		assertThat(bookRepository.findAll()).containsExactly(saved);
 		assertEquals(saved, bookRepository.findById(saved.getId()).get());
 	}
 	
 	
 	@Test
-	public void test_EditBookWithExistingBookInTheRepository() {
-		Book replacedBook = bookRepository.save(new Book(null, "title", "author", 10.0));
+	public void test_editBook_WithExistingBookInTheRepository() {
+		Book toReplace = bookRepository.save(new Book(null, "title", "author", 10.0));
 		
-		Response response = given().
-					contentType(MediaType.APPLICATION_JSON_VALUE).
-					body(new Book(null, "updated_title", "updated_author", 10.0)).
-				when().
-					put("/api/books/edit/" + replacedBook.getId());
+		given().
+			contentType(MediaType.APPLICATION_JSON_VALUE).
+			body(new Book(null, "updated_title", "updated_author", 10.0)).
+		when().
+			put("/api/books/edit/" + toReplace.getId()).
+		then().
+			statusCode(200).
+			assertThat().
+				body("id", equalTo(toReplace.getId()),
+					 "title", equalTo("updated_title"),
+					 "author", equalTo("updated_author"),
+					 "price", equalTo(10.0f)
+				);
 		
-		Book editedBook = response.getBody().as(Book.class);
-		
-		assertEquals(editedBook, bookRepository.findById(editedBook.getId()).get());		
 	}
 
 	
 	@Test
-	public void test_deleteBookByIdWithExistingBookInTheRepository() {
+	public void test_deleteBookById_WithExistingBookInTheRepository() {
 		Book saved = bookRepository.save(new Book(null, "title", "author", 10.0));
 		
 		given().
@@ -140,11 +145,10 @@ public class BookRestControllerIT {
 	
 	@Test
 	public void test_deleteAllBooks() {
-		List<Book> books = bookRepository.saveAll(
-				asList(
-					new Book(null, "title1", "author1", 10.0), new Book(null, "title2", "author", 15.0)));
+		Book saved1 = new Book(null, "title1", "author1", 10.0);
+		Book saved2 = new Book(null, "title2", "author", 15.0);
 		
-		assertThat(bookRepository.findAll()).isEqualTo(books);
+		bookRepository.saveAll(asList(saved1, saved2));
 		
 		given().
 		when().

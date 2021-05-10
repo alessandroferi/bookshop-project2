@@ -391,7 +391,7 @@
     </profile>
     
     <profile>
-      <id>pit</id>
+      <id>mutation-testing</id>
       <activation>
         <activeByDefault>false</activeByDefault>
       </activation>

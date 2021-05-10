@@ -9,20 +9,6 @@ addons:
   sonarcloud:
     organization: "alessandroferi"
     
-matrix:
-  include: 
-  - jdk: openjdk11
-    env: ADDITIONAL_MAVEN_ARGS="-Pjacoco coveralls:report sonar:sonar"
-  - jdk: openjdk11
-    if: type IN (pull_request)
-    env: ADDITIONAL_MAVEN_ARGS="-Pintegration-tests"
-  - jdk: openjdk11
-    if: type IN (pull_request)
-    env: ADDITIONAL_MAVEN_ARGS="-Pe2e-tests"
-  - jdk: openjdk11
-    if: type IN (pull_request)
-    env: ADDITIONAL_MAVEN_ARGS="-Ppit"
-    
 services: 
   - xvfb
   - docker
@@ -35,4 +21,7 @@ cache:
     - $HOME/.sonar/cache 
     
 script:
-  - mvn -f bookshop-project2/pom.xml clean verify $ADDITIONAL_MAVEN_ARGS
+  - mvn -f bookshop-project2/pom.xml clean verify -Pjacoco coveralls:report sonar:sonar
+  - mvn -f bookshop-project2/pom.xml verify -Pintegration-tests
+  - mvn -f bookshop-project2/pom.xml verify -Pe2e-tests
+  - mvn -f bookshop-project2/pom.xml verify -Pmutation-testing
