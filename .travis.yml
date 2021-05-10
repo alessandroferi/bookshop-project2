@@ -4,7 +4,10 @@ dist: xenial
 
 git:
   depth: false
-  
+
+node_js:
+  - "10"
+
 addons:
   sonarcloud:
     organization: "alessandroferi"
@@ -12,6 +15,12 @@ addons:
 services: 
   - xvfb
   - docker
+  
+env: DISPLAY=:99.0
+
+before_script:
+ - sh -e /etc/init.d/xvfb start
+
     
 install: true
 
@@ -22,6 +31,6 @@ cache:
     
 script:
   - mvn -f bookshop-project2/pom.xml clean verify -Pjacoco coveralls:report sonar:sonar
-  - mvn -f bookshop-project2/pom.xml verify -Pintegration-tests
-  - mvn -f bookshop-project2/pom.xml verify -Pe2e-tests
-  - mvn -f bookshop-project2/pom.xml verify -Pmutation-testing
+  #- mvn -f bookshop-project2/pom.xml verify -Pintegration-tests
+  #- mvn -f bookshop-project2/pom.xml verify -Pe2e-tests
+  #- mvn -f bookshop-project2/pom.xml verify -Pmutation-testing
