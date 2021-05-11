@@ -52,11 +52,7 @@ public class UserServiceRepositoryIT {
 	
 	@Test
 	public void test_findUserByEmail_whenEmailAlreadyExist() {
-		User saved = new User();
-		
-		saved.setEmail("already_exist@gmail");
-		saved.setUsername("username");
-		saved.setPassword("password");
+		User saved = new User(null, "already_exist@gmail", "username", "password");
 		
 		userRepository.save(saved);
 	
@@ -68,11 +64,7 @@ public class UserServiceRepositoryIT {
 	
 	@Test
 	public void test_findUserByUsername_whenUsernameAlreadyExist() {
-		User saved = new User();
-		
-		saved.setEmail("email@gmail");
-		saved.setUsername("username");
-		saved.setPassword("password");
+		User saved = new User(null, "email@gmail", "username", "password");
 		
 		userRepository.save(saved);
 		
@@ -85,11 +77,7 @@ public class UserServiceRepositoryIT {
 	
 	@Test
 	public void test_ServiceCanInsertIntoRepository() {
-		User toInsert = new User();
-		
-		toInsert.setEmail("email@gmail");
-		toInsert.setUsername("username");
-		toInsert.setPassword("password");
+		User toInsert = new User(null, "email@gmail", "username", "password");
 		
 		userService.saveUser(toInsert);
 		
@@ -102,11 +90,7 @@ public class UserServiceRepositoryIT {
 	
 	@Test
 	public void test_loadUserByUsername() {
-		User saved = new User();
-		
-		saved.setEmail("saved@gmail");
-		saved.setUsername("saved_username");
-		saved.setPassword("saved_passowrd");
+		User saved = new User(null, "saved@gmail", "saved_username", "saved_password");
 		
 		userRepository.save(saved);
 		
@@ -118,19 +102,13 @@ public class UserServiceRepositoryIT {
 	
 	@Test
 	public void test_loadUserByUsername_withUserNotFound() {
-		User not_saved = new User();
-		
-		not_saved.setEmail("not_saved@gmail");
-		not_saved.setUsername("username_not_saved");
-		not_saved.setPassword("not_saved");
 		
 		assertThatThrownBy(() -> 
 		userService.loadUserByUsername("username_not_saved")).
 			isInstanceOf(UsernameNotFoundException.class).
 				hasMessage("user not found");
 		
-		assertThat(userRepository.findByUsername("username_not_saved")).isEmpty();
-		assertThat(userRepository.findByEmail("not_saved@gmail")).isEmpty();
+		assertThat(userRepository.findByUsername("username_not_saved")).isNotPresent();
 		
 	}	
 	

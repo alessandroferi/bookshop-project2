@@ -25,27 +25,26 @@ import com.feri.alessandro.attsw.project.repositories.UserRepository;
 public class UserServiceWithMockitoTest {
 
 	@Mock
-	UserRepository userRepository;
+	private UserRepository userRepository;
 	
 	@Mock
-	BCryptPasswordEncoder bCryptPasswordEncoder;
+	private BCryptPasswordEncoder bCryptPasswordEncoder;
 	
 	@InjectMocks
-	UserService userService;
+	private UserService userService;
 	
 	@Test
-	public void test_findByEmail() throws EmailExistException {
+	public void test_findByEmail_whenEmailAddressNotExist() throws EmailExistException {
 		when(userRepository.findByEmail(anyString())).thenReturn(Optional.empty());
 		
 		assertThat(userService.findUserByEmail(anyString())).isNull();
 		
 		assertThatCode(() -> userService.findUserByEmail(anyString())).doesNotThrowAnyException();
 	
-		verify(userRepository, times(2)).findByEmail(anyString());
 	}
 	
 	@Test
-	public void test_findByEmail_whenUserAlreadyExist_shouldThrowException() {
+	public void test_findByEmail_whenEmailAddressAlreadyExist_shouldThrowException() {
 		User user = new User(null, "tested_email@gmail", "username", "password");
 		
 		when(userRepository.findByEmail("tested_email@gmail")).thenReturn(Optional.of(user));
@@ -58,7 +57,7 @@ public class UserServiceWithMockitoTest {
 	}
 	
 	@Test
-	public void test_findByUsername() throws UsernameExistException {
+	public void test_findByUsername_whenUsernameNotExist() throws UsernameExistException {
 		
 		when(userRepository.findByUsername(anyString())).thenReturn(Optional.empty());
 		
@@ -66,7 +65,6 @@ public class UserServiceWithMockitoTest {
 		
 		assertThatCode(() -> userService.findUserByUsername(anyString())).doesNotThrowAnyException();
 		
-		verify(userRepository, times(2)).findByUsername(anyString());
 	}
 	
 	@Test
@@ -83,7 +81,7 @@ public class UserServiceWithMockitoTest {
 	}
 	
 	@Test
-	public void test_loadByUsername() {
+	public void test_loadByUsername_withExistingUser() {
 		User user = new User(null, "email@gmail", "tested_username", "password");
 		
 		when(userRepository.findByUsername("tested_username")).thenReturn(Optional.of(user));
@@ -110,9 +108,7 @@ public class UserServiceWithMockitoTest {
 		
 		when(userRepository.save(isA(User.class))).thenReturn(user);
 		when(bCryptPasswordEncoder.encode(user.getPassword())).thenReturn("password_encoded");
-		
-		assertThat(user.getPassword()).isEqualTo("password");
-		
+	
 		userService.saveUser(user);
 		
 		assertThat(user.getPassword()).isEqualTo("password_encoded");

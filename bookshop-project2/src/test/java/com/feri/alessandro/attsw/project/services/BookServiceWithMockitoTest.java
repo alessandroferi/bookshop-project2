@@ -26,13 +26,13 @@ public class BookServiceWithMockitoTest {
 	private static final String BOOK_NOT_FOUND = "Book not found!";
 
 	@Mock
-	BookRepository bookRepository;
+	private BookRepository bookRepository;
 	
 	@InjectMocks
-	BookService bookService;
+	private BookService bookService;
 	
 	@Test
-	public void test_getAllBooksWithZeroBooks() {
+	public void test_getAllBooks_withNoBooks() {
 		when(bookRepository.findAll()).thenReturn(Collections.emptyList());
 		
 		assertThat(bookService.getAllBooks()).isEmpty();
@@ -42,7 +42,7 @@ public class BookServiceWithMockitoTest {
 	}
 	
 	@Test
-	public void test_getAllBooksWithOneBook() {
+	public void test_getAllBooks_withOneBook() {
 		Book book = new Book(BigInteger.valueOf(1), "testBook", "testAuthor", 10.0);
 		
 		when(bookRepository.findAll()).thenReturn(asList(book));
@@ -54,7 +54,7 @@ public class BookServiceWithMockitoTest {
 	}
 	
 	@Test
-	public void test_getAllBooksWithMoreThanOneBook() {
+	public void test_getAllBooks_withMoreThanOneBook() {
 		Book book1 = new Book(BigInteger.valueOf(1), "testBook1", "testAuthor1", 10.0);
 		Book book2 = new Book(BigInteger.valueOf(2), "testBook2", "testAuthor2", 20.0);
 		
