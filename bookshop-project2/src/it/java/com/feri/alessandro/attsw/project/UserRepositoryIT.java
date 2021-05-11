@@ -1,6 +1,7 @@
 package com.feri.alessandro.attsw.project;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.Assert.assertEquals;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -31,7 +32,7 @@ public class UserRepositoryIT {
 		
 		userRepository.save(saved);
 		
-		assertThat(userRepository.findByEmail(saved.getEmail()).get()).isEqualTo(saved);
+		assertEquals(saved, userRepository.findByEmail(saved.getEmail()).get());
 	}
 	
 	@Test
@@ -45,7 +46,7 @@ public class UserRepositoryIT {
 		
 		userRepository.save(saved);
 		
-		assertThat(userRepository.findByUsername(saved.getUsername()).get()).isEqualTo(saved);
+		assertEquals(saved, userRepository.findByUsername(saved.getUsername()).get());
 	}
 	
 	@Test

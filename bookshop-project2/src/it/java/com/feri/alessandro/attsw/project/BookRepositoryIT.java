@@ -1,5 +1,6 @@
 package com.feri.alessandro.attsw.project;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.Assert.assertEquals;
 
 import java.math.BigInteger;
 
@@ -27,8 +28,10 @@ public class BookRepositoryIT {
 	@Test
 	public void test_findById() {
 		Book saved = new Book(null, "title", "author", 10.0);
+		
 		bookRepository.save(saved);
-		assertThat(bookRepository.findById(saved.getId()).get()).isEqualTo(saved);
+		
+		assertEquals(saved, bookRepository.findById(saved.getId()).get());
 	}
 	
 	@Test
@@ -39,8 +42,10 @@ public class BookRepositoryIT {
 	@Test
 	public void test_findByTitle() {
 		Book saved = new Book(null, "title", "author", 10.0);	
+		
 		bookRepository.save(saved);
-		assertThat(bookRepository.findByTitle(saved.getTitle()).get()).isEqualTo(saved);
+		
+		assertEquals(saved, bookRepository.findByTitle(saved.getTitle()).get());
 	}
 	
 	@Test
