@@ -4,7 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
@@ -36,7 +36,7 @@ public class BookshopSteps {
 	@Before
 	public void setUpWebDriver() {
 		baseUrl = "http://localhost:" + port;
-		webDriver = new ChromeDriver();
+		webDriver = new FirefoxDriver();
 		userRepository.deleteAll();
 		bookRepository.deleteAll();
 		
@@ -47,8 +47,8 @@ public class BookshopSteps {
 		webDriver.quit();
 	}
 
-	@Given("I am on the Registration page")
-	public void i_am_on_the_Registration_page() {
+	@Given("I start on the Registration page")
+	public void i_start_on_the_Registration_page() {
 	    webDriver.get(baseUrl + "/registration");
 	}
 
@@ -65,7 +65,6 @@ public class BookshopSteps {
 	@When("I click the {string} button")
 	public void i_click_the_button(String button) throws Exception {
 		webDriver.findElement(By.name(button)).click();
-		Thread.sleep(1500);
 	}
 	
 	@Then("I am on the {string} page")
@@ -80,8 +79,7 @@ public class BookshopSteps {
 	
 	@When("I click on {string} link")
 	public void i_click_on_link(String linkName) throws Exception {
-	    webDriver.findElement(By.linkText(linkName)).click();
-	    Thread.sleep(1500);	    
+	    webDriver.findElement(By.linkText(linkName)).click();    
 	}
 
 	@When("I insert {string} into username field and {string} into password field")

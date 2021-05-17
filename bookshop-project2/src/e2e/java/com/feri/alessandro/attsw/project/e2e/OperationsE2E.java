@@ -14,6 +14,6 @@ public class OperationsE2E {
 
 	@BeforeClass
 	public static void setUpDriver() {
-		WebDriverManager.chromedriver().setup();
+		WebDriverManager.firefoxdriver().setup();
 	}
 }

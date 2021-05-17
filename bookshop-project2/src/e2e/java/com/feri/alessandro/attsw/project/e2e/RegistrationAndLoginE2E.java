@@ -13,6 +13,6 @@ public class RegistrationAndLoginE2E {
 
 	@BeforeClass
 	public static void setUpDriver() {
-		WebDriverManager.chromedriver().setup();
+		WebDriverManager.firefoxdriver().setup();
 	}
 }
