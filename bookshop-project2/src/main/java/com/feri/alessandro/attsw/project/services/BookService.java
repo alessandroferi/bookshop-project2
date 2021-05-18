@@ -58,6 +58,9 @@ public class BookService {
 	}	
 
 	public void deleteOneBook(Book book) throws BookNotFoundException {
+		if (book == null) 
+			throw new IllegalArgumentException();
+		
 		sanityCheck(book.getId());
 		bookRepository.delete(book);
 	}
