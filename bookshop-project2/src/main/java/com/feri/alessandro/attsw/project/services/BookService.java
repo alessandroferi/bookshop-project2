@@ -33,6 +33,9 @@ public class BookService {
 	}
 
 	public Book getBookByTitle(String title) throws BookNotFoundException {
+		if (title == null) 
+			throw new IllegalArgumentException();
+			
 		return bookRepository.findByTitle(title).
 				orElseThrow(() -> new BookNotFoundException(BOOK_NOT_FOUND));
 	}
