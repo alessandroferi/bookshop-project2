@@ -25,6 +25,9 @@ public class BookService {
 	}
 	
 	public Book getBookById(BigInteger id) throws BookNotFoundException {
+		if (id == null) 
+			throw new IllegalArgumentException();
+		
 		return bookRepository.findById(id).
 				orElseThrow(() -> new BookNotFoundException(BOOK_NOT_FOUND));
 	}
