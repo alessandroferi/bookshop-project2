@@ -109,6 +109,16 @@ public class BookServiceWithMockitoTest {
 	}
 	
 	@Test
+	public void test_getBookByTitle_withNullTitle_shouldThrowException() {
+		assertThatThrownBy(() ->
+				bookService.getBookByTitle(null)).
+					isInstanceOf(IllegalArgumentException.class);
+		
+		verifyZeroInteractions(bookRepository);
+	}
+	
+	
+	@Test
 	public void test_getBookByTitle_notFound_ShouldThrowException() {
 		when(bookRepository.findByTitle("testedTitle")).thenReturn(Optional.empty());
 		
