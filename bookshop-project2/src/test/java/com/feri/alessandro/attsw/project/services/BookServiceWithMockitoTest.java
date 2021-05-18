@@ -189,14 +189,13 @@ public class BookServiceWithMockitoTest {
 	}
 	
 
-	@Test
-	public void test_editBookById_withNullBook_shouldThrowException() {
-		assertThatThrownBy(() -> 
-				bookService.editBookById(BigInteger.valueOf(1), null)).
-					isInstanceOf(IllegalArgumentException.class);
+	@Test(expected = IllegalArgumentException.class)
+	public void test_editBookById_withNullBook_shouldThrowException() throws BookNotFoundException {
+		bookService.editBookById(BigInteger.valueOf(1), null);
 		
 		verifyZeroInteractions(bookRepository);
 	}
+	
 	
 	@Test
 	public void test_editBookById_WhenIdNotFound_ShouldThrowException() {
