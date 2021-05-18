@@ -25,27 +25,42 @@ public class BookService {
 	}
 	
 	public Book getBookById(BigInteger id) throws BookNotFoundException {
+		if (id == null) 
+			throw new IllegalArgumentException();
+		
 		return bookRepository.findById(id).
 				orElseThrow(() -> new BookNotFoundException(BOOK_NOT_FOUND));
 	}
 
 	public Book getBookByTitle(String title) throws BookNotFoundException {
+		if (title == null) 
+			throw new IllegalArgumentException();
+			
 		return bookRepository.findByTitle(title).
 				orElseThrow(() -> new BookNotFoundException(BOOK_NOT_FOUND));
 	}
 	
 	public Book insertNewBook(Book book) {
+		if (book == null)
+			throw new IllegalArgumentException();
+		
 		book.setId(null);
 		return bookRepository.save(book);
 	}
 	
 	public Book editBookById(BigInteger id, Book replacementBook) throws BookNotFoundException {
+		if(replacementBook == null)
+			throw new IllegalArgumentException();
+		
 		sanityCheck(id);
 		replacementBook.setId(id);
 		return bookRepository.save(replacementBook);
 	}	
 
 	public void deleteOneBook(Book book) throws BookNotFoundException {
+		if (book == null) 
+			throw new IllegalArgumentException();
+		
 		sanityCheck(book.getId());
 		bookRepository.delete(book);
 	}

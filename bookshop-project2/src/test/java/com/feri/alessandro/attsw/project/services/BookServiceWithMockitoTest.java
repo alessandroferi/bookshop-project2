@@ -78,6 +78,15 @@ public class BookServiceWithMockitoTest {
 	}
 	
 	@Test
+	public void test_getBookById_withNullId_shouldThrowException() {
+		assertThatThrownBy(() ->
+				bookService.getBookById(null)).
+					isInstanceOf(IllegalArgumentException.class);
+		
+		verifyZeroInteractions(bookRepository);
+	}
+	
+	@Test
 	public void test_getBookById_notFound_ShouldThrowException() {
 		when(bookRepository.findById(BigInteger.valueOf(1))).thenReturn(Optional.empty());
 		
@@ -98,6 +107,16 @@ public class BookServiceWithMockitoTest {
 		verify(bookRepository, times(1)).findByTitle("testedTitle");
 		
 	}
+	
+	@Test
+	public void test_getBookByTitle_withNullTitle_shouldThrowException() {
+		assertThatThrownBy(() ->
+				bookService.getBookByTitle(null)).
+					isInstanceOf(IllegalArgumentException.class);
+		
+		verifyZeroInteractions(bookRepository);
+	}
+	
 	
 	@Test
 	public void test_getBookByTitle_notFound_ShouldThrowException() {
@@ -130,6 +149,15 @@ public class BookServiceWithMockitoTest {
 	}
 	
 	@Test
+	public void test_insertNewBook_withNullBook_shouldThrowException() {
+		assertThatThrownBy(() ->
+				bookService.insertNewBook(null)).
+					isInstanceOf(IllegalArgumentException.class);
+		
+		verifyZeroInteractions(bookRepository);
+	}
+	
+	@Test
 	public void test_editBookById_setsIdToArgument_and_ShouldReturnsSavedBook() throws BookNotFoundException {
 		Book replacementBook = spy(new Book(null, "replacementBook", "replacementAuthor", 5.0));
 		Book replacedBook= new Book(BigInteger.valueOf(1), "replacedBook", "replacedAuthor", 10.0);
@@ -148,6 +176,26 @@ public class BookServiceWithMockitoTest {
 		inOrder.verify(bookRepository).findById(BigInteger.valueOf(1));
 		inOrder.verify(replacementBook).setId(BigInteger.valueOf(1));
 		inOrder.verify(bookRepository).save(replacementBook);		
+	}
+	
+	@Test
+	public void test_editBookById_withNullId_shouldThrowException() {
+		Book book = new Book(null, "title", "author", 10.0);
+		assertThatThrownBy(() -> 
+				bookService.editBookById(null, book)).
+					isInstanceOf(IllegalArgumentException.class);
+		
+		verifyZeroInteractions(bookRepository);
+	}
+	
+
+	@Test
+	public void test_editBookById_withNullBook_shouldThrowException() {
+		assertThatThrownBy(() -> 
+				bookService.editBookById(BigInteger.valueOf(1), null)).
+					isInstanceOf(IllegalArgumentException.class);
+		
+		verifyZeroInteractions(bookRepository);
 	}
 	
 	@Test
@@ -172,6 +220,26 @@ public class BookServiceWithMockitoTest {
 		
 		verify(bookRepository, times(1)).findById(BigInteger.valueOf(1));
 		verify(bookRepository, times(1)).delete(bookToDelete);
+	}
+	
+	@Test
+	public void test_deleteOneBook_withNullBook_shouldThrowException() {
+		assertThatThrownBy(() -> 
+				bookService.deleteOneBook(null)).
+					isInstanceOf(IllegalArgumentException.class);
+		
+		verifyZeroInteractions(bookRepository);
+	}
+	
+	@Test
+	public void test_deleteOneBook_withNullId_shouldThrowException() {
+		Book saved = new Book(null, "title", "author", 10.0);
+		
+		assertThatThrownBy(() -> 
+				bookService.deleteOneBook(saved)).
+					isInstanceOf(IllegalArgumentException.class);
+		
+		verifyZeroInteractions(bookRepository);
 	}
 	
 	@Test
