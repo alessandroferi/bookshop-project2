@@ -41,6 +41,9 @@ public class BookService {
 	}
 	
 	public Book insertNewBook(Book book) {
+		if (book == null)
+			throw new IllegalArgumentException();
+		
 		book.setId(null);
 		return bookRepository.save(book);
 	}
