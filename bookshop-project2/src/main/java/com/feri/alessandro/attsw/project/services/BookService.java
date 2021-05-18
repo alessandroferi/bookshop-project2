@@ -49,6 +49,9 @@ public class BookService {
 	}
 	
 	public Book editBookById(BigInteger id, Book replacementBook) throws BookNotFoundException {
+		if(replacementBook == null)
+			throw new IllegalArgumentException();
+		
 		sanityCheck(id);
 		replacementBook.setId(id);
 		return bookRepository.save(replacementBook);
