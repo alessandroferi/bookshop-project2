@@ -78,6 +78,15 @@ public class BookServiceWithMockitoTest {
 	}
 	
 	@Test
+	public void test_getBookById_withNullId_shouldThrowException() {
+		assertThatThrownBy(() ->
+				bookService.getBookById(null)).
+					isInstanceOf(IllegalArgumentException.class);
+		
+		verifyZeroInteractions(bookRepository);
+	}
+	
+	@Test
 	public void test_getBookById_notFound_ShouldThrowException() {
 		when(bookRepository.findById(BigInteger.valueOf(1))).thenReturn(Optional.empty());
 		
