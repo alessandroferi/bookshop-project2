@@ -223,6 +223,26 @@ public class BookServiceWithMockitoTest {
 	}
 	
 	@Test
+	public void test_deleteOneBook_withNullBook_shouldThrowException() {
+		assertThatThrownBy(() -> 
+				bookService.deleteOneBook(null)).
+					isInstanceOf(IllegalArgumentException.class);
+		
+		verifyZeroInteractions(bookRepository);
+	}
+	
+	@Test
+	public void test_deleteOneBook_withNullId_shouldThrowException() {
+		Book saved = new Book(null, "title", "author", 10.0);
+		
+		assertThatThrownBy(() -> 
+				bookService.deleteOneBook(saved)).
+					isInstanceOf(IllegalArgumentException.class);
+		
+		verifyZeroInteractions(bookRepository);
+	}
+	
+	@Test
 	public void test_deleteOneBook_WhenItsIdIsNotFound_ShouldThrowException() {
 		Book bookNotFound = new Book(BigInteger.valueOf(1), "titleNotFound", "authorNoyFound", 0.0);
 		
