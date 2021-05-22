@@ -97,15 +97,28 @@ public class BookServiceWithMockitoTest {
 	}
 	
 	@Test
-	public void test_getBookByTitle_found() throws BookNotFoundException {
-		Book book = new Book(BigInteger.valueOf(1), "tesedtTitle", "author", 10.0);
+	public void test_getBookByTitle_withOneBook() throws BookNotFoundException {
+		Book book = new Book(BigInteger.valueOf(1), "testedTitle", "author", 10.0);
 		
-		when(bookRepository.findByTitle("testedTitle")).thenReturn(Optional.of(book));
+		when(bookRepository.findByTitle("testedTitle")).thenReturn(asList(book));
 		
-		assertThat(bookService.getBookByTitle("testedTitle")).isSameAs(book);
+		assertThat(bookService.getBookByTitle("testedTitle")).containsExactly(book);
 		
 		verify(bookRepository, times(1)).findByTitle("testedTitle");
 		
+	}
+	
+	@Test
+	public void test_getBookByTitle_withMoreBooks() throws BookNotFoundException {
+		Book book1 = new Book(BigInteger.valueOf(1), "testedTitle", "testAuthor1", 10.0);
+		Book book2 = new Book(BigInteger.valueOf(2), "testedTitle", "testAuthor2", 20.0);
+		
+		when(bookRepository.findByTitle("testedTitle")).thenReturn(asList(book1, book2));
+		
+		assertThat(bookService.getBookByTitle("testedTitle")).containsExactly(book1, book2);
+		
+		verify(bookRepository, times(1)).findByTitle("testedTitle");
+		verifyNoMoreInteractions(bookRepository);	
 	}
 	
 	@Test
@@ -120,7 +133,7 @@ public class BookServiceWithMockitoTest {
 	
 	@Test
 	public void test_getBookByTitle_notFound_ShouldThrowException() {
-		when(bookRepository.findByTitle("testedTitle")).thenReturn(Optional.empty());
+		when(bookRepository.findByTitle("testedTitle")).thenReturn(Collections.emptyList());
 		
 		assertThatThrownBy(() -> 
 				bookService.getBookByTitle("testedTitle")).
@@ -128,6 +141,7 @@ public class BookServiceWithMockitoTest {
 						hasMessage(BOOK_NOT_FOUND);
 	}
 	
+
 	
 	@Test
 	public void test_insertNewBook_setsIdToNull_and_ReturnsSavedBook() {

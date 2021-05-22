@@ -258,16 +258,16 @@ public class BookshopWebControllerTest {
 	 
 	 @Test
 	 @WithMockUser
-	 public void test_Search_ShouldShowSearchedBook() throws Exception {
+	 public void test_Search_WithShouldShowSearchedBook() throws Exception {
 		 String search = "title";
 		 
-		 Book searched =  new Book(BigInteger.valueOf(1), "title", "author", 10.0);
+		 List<Book> books = asList(new Book(null, "title", "author", 10.0));
 		 
-		 when(bookService.getBookByTitle(search)).thenReturn(searched);
+		 when(bookService.getBookByTitle(search)).thenReturn(books);
 		 
 		 mvc.perform(get("/search")
 				 .param("title_searched", search))
-		 	.andExpect(model().attribute("book", equalTo(searched)))
+		 	.andExpect(model().attribute("books", books))
 		 	.andExpect(model().attribute("message", EMPTY_MESSAGE))
 		 	.andExpect(view().name("search"));
 		 
