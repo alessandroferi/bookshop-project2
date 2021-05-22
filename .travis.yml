@@ -22,6 +22,6 @@ cache:
     
 script:
   - mvn -f bookshop-project2/pom.xml clean verify -Pjacoco coveralls:report sonar:sonar
-  #- mvn -f bookshop-project2/pom.xml verify -Pintegration-tests
-  #- mvn -f bookshop-project2/pom.xml verify -Pe2e-tests
-  #- mvn -f bookshop-project2/pom.xml verify -Pmutation-testing
+  - mvn -f bookshop-project2/pom.xml verify -Pintegration-tests
+  - mvn -f bookshop-project2/pom.xml verify -Pe2e-tests
+  - mvn -f bookshop-project2/pom.xml verify -Pmutation-testing
