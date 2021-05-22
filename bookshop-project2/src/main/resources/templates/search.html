@@ -25,7 +25,7 @@ body {
       </div>
       <div th:if="${message.empty}">
         <!-- Book result -->
-          <div class = "center-elements" th:unless="${book == null}">
+          <div class = "center-elements" th:unless="${books.empty}">
             <h1 class="headers"><strong>Results</strong></h1>
             <br>
             <div class="center-elements">
@@ -38,7 +38,7 @@ body {
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
+                  <tr th:each="book : ${books}">
           		    <td colspan="2" th:text="${book.title}"></td>
           			<td colspan="2" th:text="${book.author}"></td>
           			<td colspan="2" th:text="${book.price}"></td>

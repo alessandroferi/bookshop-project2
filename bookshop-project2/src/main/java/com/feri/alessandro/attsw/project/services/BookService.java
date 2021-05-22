@@ -32,12 +32,19 @@ public class BookService {
 				orElseThrow(() -> new BookNotFoundException(BOOK_NOT_FOUND));
 	}
 
-	public Book getBookByTitle(String title) throws BookNotFoundException {
+	public List<Book> getBookByTitle(String title) throws BookNotFoundException {
 		if (title == null) 
 			throw new IllegalArgumentException();
-			
-		return bookRepository.findByTitle(title).
-				orElseThrow(() -> new BookNotFoundException(BOOK_NOT_FOUND));
+		
+		List<Book> result = bookRepository.findByTitle(title);
+		
+		if (!result.isEmpty())
+			return result;
+		
+		else {
+			throw new BookNotFoundException(BOOK_NOT_FOUND);
+		}
+		
 	}
 	
 	public Book insertNewBook(Book book) {
