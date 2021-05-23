@@ -60,6 +60,7 @@ public class BookshopWebViewsHtmlUnitTest {
 		assertElementPresent(page, "login_button");
 		assertElementPresent(page, "registration_button");
 		assertLinkPresentWithText(page, "Register");
+
 	}
 	
 	@Test
@@ -327,7 +328,7 @@ public class BookshopWebViewsHtmlUnitTest {
 	@WithMockUser
 	public void test_searchView_WhenBookIsFound() throws Exception {
 		Book found = new Book(BigInteger.valueOf(1), "test_title", "author", 10.0);
-		when(bookService.getBookByTitle("test_title")).thenReturn(found);
+		when(bookService.getBookByTitle("test_title")).thenReturn(asList(found));
 		
 		HtmlPage page = webClient.getPage("/");
 		
@@ -352,9 +353,8 @@ public class BookshopWebViewsHtmlUnitTest {
 	@WithMockUser
 	public void testDelete() throws Exception {
 		Book book = new Book(BigInteger.valueOf(1), "title1", "author1", 10.0);
-		List<Book> books = asList(book);
 		
-		when(bookService.getAllBooks()).thenReturn(books);
+		when(bookService.getAllBooks()).thenReturn(asList(book));
 		when(bookService.getBookById(BigInteger.valueOf(1))).thenReturn(book);
 		
 		HtmlPage page = webClient.getPage("/");
@@ -369,7 +369,7 @@ public class BookshopWebViewsHtmlUnitTest {
 	@WithMockUser
 	public void test_deleteAll() throws Exception {
 		HtmlPage home = webClient.getPage("/");
-		
+
 		final HtmlForm form = home.getFormByName("deleteAll");
 		
 		form.getButtonByName("Delete All").click();

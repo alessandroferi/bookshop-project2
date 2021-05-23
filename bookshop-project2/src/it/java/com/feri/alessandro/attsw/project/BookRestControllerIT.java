@@ -83,17 +83,25 @@ public class BookRestControllerIT {
 	
 	
 	@Test
-	public void test_getBookByTitleWithExistingBookInTheRepository() {
-		Book saved = bookRepository.save(new Book(null, "title", "author", 10.0));
+	public void test_getBookByTitle_WithMoreBooksInTheRepository() {
+		bookRepository.saveAll(asList(
+					new Book(null, "title", "author", 10.0), new Book(null, "title", "author2", 15.0),
+						new Book(null, "title2", "author3", 20.0)));
 		
-		Response response = 
-				given().
-				when().
-					get("/api/books/title/" + saved.getTitle());
+		given().
+		when().
+			get("/api/books/title/title").
+		then().
+			statusCode(200).
+			assertThat().
+				body("title[0]", equalTo("title"),
+				 "author[0]", equalTo("author"),
+				 "price[0]", equalTo(10.0f),
+				 "title[1]", equalTo("title"),
+				 "author[1]", equalTo("author2"),
+				 "price[1]", equalTo(15.0f)
+				);
 		
-		Book result = response.getBody().as(Book.class);
-		
-		assertEquals(saved, bookRepository.findByTitle(result.getTitle()).get());
 	}
 	
 	@Test

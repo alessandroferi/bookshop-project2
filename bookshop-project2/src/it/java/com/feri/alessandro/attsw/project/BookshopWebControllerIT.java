@@ -266,17 +266,19 @@ public class BookshopWebControllerIT {
 	@Test
 	@WithMockUser
 	public void test_searchView() throws Exception {
-		Book saved = new Book(null, "existing_title", "author", 10.0);
+		bookRepository.saveAll(
+				asList(new Book(null, "title", "author", 10.0),
+							new Book(null, "title", "author2", 15.0),
+								new Book(null, "title2", "author3", 20.0)));
 		
-		bookRepository.save(saved);
+		List<Book> result = bookRepository.findByTitle("title");
 		
 		mvc.perform(get("/search").
-				param("title_searched", saved.getTitle())).
+				param("title_searched", "title")).
 			andExpect(view().name("search")).
-			andExpect(model().attribute("book", saved)).
+			andExpect(model().attribute("books", result)).
 			andExpect(model().attribute("message", EMPTY_MESSAGE));
-		
-		assertThat(bookRepository.findByTitle(saved.getTitle())).isPresent();
+
 	}
 	
 	@Test

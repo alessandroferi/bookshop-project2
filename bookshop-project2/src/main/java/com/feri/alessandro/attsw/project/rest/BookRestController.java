@@ -36,7 +36,7 @@ public class BookRestController {
 	}
 	
 	@GetMapping("/title/{title}")
-	public Book getBookByTitle(@PathVariable String title) throws BookNotFoundException {
+	public List<Book> getByTitle(@PathVariable String title) throws BookNotFoundException {
 		return bookService.getBookByTitle(title);
 	}
 	

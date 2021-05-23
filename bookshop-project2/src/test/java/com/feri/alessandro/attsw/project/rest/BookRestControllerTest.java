@@ -162,7 +162,9 @@ public class BookRestControllerTest {
 	@Test
 	public void test_getBookByTitle_WithExistingTitle() throws BookNotFoundException {
 		when(bookService.getBookByTitle(anyString())).
-			thenReturn(new Book(BigInteger.valueOf(1), "testTitle", "author1", 10.0));
+			thenReturn(asList(
+					new Book(BigInteger.valueOf(1), "testTitle", "author1", 10.0),
+						new Book(BigInteger.valueOf(2), "testTitle", "author2", 15.0)));
 		
 		given().
 		when().
@@ -171,10 +173,14 @@ public class BookRestControllerTest {
 			statusCode(200).
 			assertThat().
 			contentType(MediaType.APPLICATION_JSON_VALUE).
-				body("id", equalTo(1),
-					 "title", equalTo("testTitle"),
-					 "author", equalTo("author1"),
-					 "price", equalTo(10.0f)
+				body("id[0]", equalTo(1),
+					 "title[0]", equalTo("testTitle"),
+					 "author[0]", equalTo("author1"),
+					 "price[0]", equalTo(10.0f),
+					 "id[1]", equalTo(2),
+					 "title[1]", equalTo("testTitle"),
+					 "author[1]", equalTo("author2"),
+					 "price[1]", equalTo(15.0f)
 				);
 		
 		verify(bookService, times(1)).getBookByTitle("testTitle");

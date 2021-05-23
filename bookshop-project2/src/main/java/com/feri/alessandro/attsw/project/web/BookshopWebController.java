@@ -115,8 +115,8 @@ public class BookshopWebController {
 			model.addAttribute(MESSAGE, "Error! Please, insert a valid title.");
 		} else {
 		
-		Book book = bookService.getBookByTitle(title);
-		model.addAttribute("book", book);
+		List<Book> books = bookService.getBookByTitle(title);
+		model.addAttribute("books", books);
 		model.addAttribute(MESSAGE, EMPTY_MESSAGE);
 		
 		}
