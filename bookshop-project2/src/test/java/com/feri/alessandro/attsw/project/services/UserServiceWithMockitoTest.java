@@ -9,6 +9,7 @@ import java.util.Optional;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.InOrder;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
@@ -106,13 +107,16 @@ public class UserServiceWithMockitoTest {
 	public void test_saveUser() {
 		User user = new User(null, "email", "username", "password");
 		
-		when(userRepository.save(isA(User.class))).thenReturn(user);
 		when(bCryptPasswordEncoder.encode(user.getPassword())).thenReturn("password_encoded");
 	
 		userService.saveUser(user);
 		
 		assertThat(user.getPassword()).isEqualTo("password_encoded");
-		verify(userRepository).save(isA(User.class));
+		
+		InOrder inOrder = inOrder(userRepository, bCryptPasswordEncoder);
+		inOrder.verify(bCryptPasswordEncoder).encode(anyString());
+		inOrder.verify(userRepository).save(isA(User.class));
+	
 	}
 	
 }

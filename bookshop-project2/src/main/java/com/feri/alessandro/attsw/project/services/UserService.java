@@ -17,11 +17,16 @@ public class UserService implements UserDetailsService {
 
 	@Autowired
 	private UserRepository userRepository;
-	
+
 	@Autowired
 	private BCryptPasswordEncoder passwordEncoder;
 	
-	
+	public UserService(UserRepository userRepository, BCryptPasswordEncoder passwordEncoder) {
+		super();
+		this.userRepository = userRepository;
+		this.passwordEncoder = passwordEncoder;
+	}
+
 	public User findUserByEmail(String email) throws EmailExistException {
 		if(userRepository.findByEmail(email).isPresent())
 			throw new EmailExistException("Email already exist");

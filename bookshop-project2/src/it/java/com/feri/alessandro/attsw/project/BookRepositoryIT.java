@@ -62,7 +62,6 @@ public class BookRepositoryIT {
 		bookRepository.saveAll(books);
 		
 		assertThat(bookRepository.findByTitle("title")).containsExactly(book1,book2).doesNotContain(book3);	
-		
 	}
 	
 	@Test

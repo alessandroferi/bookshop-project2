@@ -338,13 +338,10 @@ public class BookshopWebViewsHtmlUnitTest {
 		
 		HtmlPage search = form.getButtonByName("Search").click();
 		
-		search.getAnchorByHref("/");
-		
 		assertThat(search.getElementById("Result Table").getTextContent()).
 			contains("Title", "Author", "Price", "test_title", "author", "10");
 		
-		assertThat(search.getAnchorByText("Home").getHrefAttribute()).isEqualTo("/");
-		
+		assertLinkPresentWithText(search, "Home");
 		
 		verify(bookService).getBookByTitle("test_title");
 	}

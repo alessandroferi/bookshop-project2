@@ -261,13 +261,13 @@ public class BookshopWebControllerTest {
 	 public void test_Search_WithShouldShowSearchedBook() throws Exception {
 		 String search = "title";
 		 
-		 List<Book> books = asList(new Book(null, "title", "author", 10.0));
+		 Book book = new Book(null, "title", "author", 10.0);
 		 
-		 when(bookService.getBookByTitle(search)).thenReturn(books);
+		 when(bookService.getBookByTitle(search)).thenReturn(asList(book));
 		 
 		 mvc.perform(get("/search")
 				 .param("title_searched", search))
-		 	.andExpect(model().attribute("books", books))
+		 	.andExpect(model().attribute("books", asList(book)))
 		 	.andExpect(model().attribute("message", EMPTY_MESSAGE))
 		 	.andExpect(view().name("search"));
 		 

@@ -144,7 +144,7 @@ public class BookRestControllerTest {
 	}
 	
 	@Test
-	public void test_getBookByTitle_WithNonExistingTitle() throws BookNotFoundException {
+	public void testGET_getBookByTitle_WithNonExistingTitle() throws BookNotFoundException {
 		when(bookService.getBookByTitle(anyString())).thenThrow(BookNotFoundException.class);
 		
 		given().
@@ -160,7 +160,7 @@ public class BookRestControllerTest {
 	}
 	
 	@Test
-	public void test_getBookByTitle_WithExistingTitle() throws BookNotFoundException {
+	public void testGET_getBookByTitle_WithExistingTitle() throws BookNotFoundException {
 		when(bookService.getBookByTitle(anyString())).
 			thenReturn(asList(
 					new Book(BigInteger.valueOf(1), "testTitle", "author1", 10.0),
