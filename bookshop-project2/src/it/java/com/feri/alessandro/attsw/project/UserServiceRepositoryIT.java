@@ -43,11 +43,15 @@ public class UserServiceRepositoryIT {
 	@Test
 	public void test_findUserByEmail() throws EmailExistException {
 		assertNull(userService.findUserByEmail("email@gmail"));
+
+		assertThatCode(() -> userService.findUserByUsername("email@gmail")).doesNotThrowAnyException();
 	}
 	
 	@Test
 	public void test_findUserByUsername() throws UsernameExistException {
 		assertNull(userService.findUserByUsername("username"));
+		
+		assertThatCode(() -> userService.findUserByUsername("username")).doesNotThrowAnyException();
 	}
 	
 	@Test
