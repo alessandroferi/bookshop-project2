@@ -40,7 +40,7 @@
     <sonar.sources>
       pom.xml,
       ${project.build.sourceDirectory},
-      ${basedir}/src/main/resources
+      ${basedir}/src/main/resources/templates
     </sonar.sources>
     	 
     <sonar.coverage.exclusions>
