@@ -107,16 +107,13 @@ public class BookshopWebControllerIT {
 	
 	@Test
 	public void test_createNewUser_WhenEmailAlreadyExistShouldNotSaveTheUser_andShouldReturnResultPage() throws Exception {
-		User saved = new User();
-		saved.setEmail("already_exist@gmail");
-		saved.setUsername("username");
-		saved.setPassword("password");
+		User saved = new User(null, "already_existent@gmail", "username", "password");
 		
 		userRepository.save(saved);
 		
 		ModelAndViewAssert.assertViewName(mvc.perform(post("/saveUser")
-				.param("email", "already_exist@gmail")
-				.param("username", "user")
+				.param("email", "already_existent@gmail")
+				.param("username", "not_existent")
 				.param("password", "pass")).andReturn().getModelAndView(), "registrationResult");
 		
 		assertEquals(1, userRepository.findAll().size());
@@ -127,16 +124,13 @@ public class BookshopWebControllerIT {
 	
 	@Test
 	public void test_createNewUser_WhenUsernamaAlreadyExistShouldNotSaveTheUser_andShouldReturnResultPage() throws Exception {
-		User saved = new User();
-		saved.setEmail("email@gmail");
-		saved.setUsername("already_exist");
-		saved.setPassword("password");
+		User saved = new User(null, "email@gmail", "already_existent", "password");
 		
 		userRepository.save(saved);
 		
 		ModelAndViewAssert.assertViewName(mvc.perform(post("/saveUser")
-				.param("email", "not_exist@gmail")
-				.param("username", "already_exist")
+				.param("email", "not_existent@gmail")
+				.param("username", "already_existent")
 				.param("password", "pass")).andReturn().getModelAndView(), "registrationResult");
 		
 		assertEquals(1, userRepository.findAll().size());
@@ -221,8 +215,6 @@ public class BookshopWebControllerIT {
 	@WithMockUser
 	public void test_saveWithoutId_shouldInsertBookIntoRepository_andRedirectToHomePage() throws Exception {
 		
-		assertThat(bookRepository.findAll()).isEmpty();
-		
 		mvc.perform(post("/save")
 				.param("title", "title1")
 				.param("author", "author1")
@@ -239,8 +231,6 @@ public class BookshopWebControllerIT {
 		
 		bookRepository.save(saved);
 		
-		assertEquals(1, bookRepository.findAll().size());
-		
 		BigInteger id = bookRepository.findAll().get(0).getId();
 		
 		mvc.perform(post("/save")
@@ -250,9 +240,9 @@ public class BookshopWebControllerIT {
 				.param("price", "15.0")).
 			andExpect(view().name("redirect:/"));
 		
-		assertEquals(1, bookRepository.findAll().size());
-		
 		Book updated = bookRepository.findAll().get(0);
+		
+		assertThat(bookRepository.findAll()).containsExactly(updated);
 		
 		assertEquals(saved.getId(), updated.getId());
 		assertThat(updated.getTitle()).isEqualTo("modified_title");
@@ -280,7 +270,7 @@ public class BookshopWebControllerIT {
 	
 	@Test
 	@WithMockUser
-	public void test_searchWithEmptyText_shouldShowError() throws Exception {
+	public void test_searchWithEmptyText_shouldShowErrorMessage() throws Exception {
 		mvc.perform(get("/search").
 				param("title_searched", "")).
 			andExpect(view().name("search")).
@@ -292,8 +282,6 @@ public class BookshopWebControllerIT {
 	public void test_deleteBook_shouldDeleteFromRepository_andRedirectToHomepage() throws Exception {
 		Book saved = new Book(null, "title", "author", 10.0);
 		bookRepository.save(saved);
-		
-		assertThat(bookRepository.findAll()).containsExactly(saved);
 		
 		BigInteger id = bookRepository.findAll().get(0).getId();
 		
@@ -312,8 +300,6 @@ public class BookshopWebControllerIT {
 				new Book(null, "title3", "author3", 20.0));
 		
 		bookRepository.saveAll(books);
-		
-		assertEquals(3, bookRepository.findAll().size());
 		
 		mvc.perform(get("/deleteAll")).
 			andExpect(view().name("redirect:/"));
