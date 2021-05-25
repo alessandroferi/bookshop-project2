@@ -15,20 +15,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.web.server.LocalServerPort;
-import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.feri.alessandro.attsw.project.model.Book;
 import com.feri.alessandro.attsw.project.repositories.BookRepository;
-import com.feri.alessandro.attsw.project.security.SecurityConfiguration;
-
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
-@Import(SecurityConfiguration.class)
 public class BookRestControllerIT {
 
 	@Autowired
@@ -123,19 +119,17 @@ public class BookRestControllerIT {
 	public void test_editBook_WithExistingBookInTheRepository() {
 		Book toReplace = bookRepository.save(new Book(null, "title", "author", 10.0));
 		
-		given().
-			contentType(MediaType.APPLICATION_JSON_VALUE).
-			body(new Book(null, "updated_title", "updated_author", 10.0)).
-		when().
-			put("/api/books/edit/" + toReplace.getId()).
-		then().
-			statusCode(200).
-			assertThat().
-				body("id", equalTo(toReplace.getId()),
-					 "title", equalTo("updated_title"),
-					 "author", equalTo("updated_author"),
-					 "price", equalTo(10.0f)
-				);
+		Response response = given().contentType(MediaType.APPLICATION_JSON_VALUE).
+					body(new Book(null, "updated_title", "updated_author", 10.0)).
+					when().
+						put("/api/books/edit/" + toReplace.getId());
+		
+		Book result = response.getBody().as(Book.class);
+		
+		assertThat(bookRepository.findAll()).containsExactly(result);
+		assertEquals(result, bookRepository.findById(toReplace.getId()).get());
+		assertEquals("updated_title", bookRepository.findById(toReplace.getId()).get().getTitle());
+		assertEquals("updated_author", bookRepository.findById(toReplace.getId()).get().getAuthor());
 		
 	}
 
