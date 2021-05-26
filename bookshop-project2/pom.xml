@@ -19,8 +19,6 @@
     <java.version>1.8</java.version>
     <groovy.version>3.0.6</groovy.version>
     <cucumber.version>5.5.0</cucumber.version>
-    <sonar.projectKey>alessandroferi_bookshop-project2</sonar.projectKey>
-    <sonar.scanner.force-deprecated-node-version-grace-period>true</sonar.scanner.force-deprecated-node-version-grace-period>
     
     <skip.unit-tests>false</skip.unit-tests>
     <skip.integration-tests>false</skip.integration-tests>
@@ -30,7 +28,7 @@
       ${project.reporting.outputDirectory}/jacoco/jacoco.xml
     </sonar.coverage.jacoco.xmlReportPaths>
     
-    <!-- Also includes integration tests -->
+    <!-- If you need that, also includes integration tests -->
     <sonar.junit.reportPaths>
       ${project.build.directory}/surefire-reports,
       ${project.build.directory}/failsafe-reports
