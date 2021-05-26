@@ -22,8 +22,10 @@
     
     <skip.unit-tests>false</skip.unit-tests>
     <skip.integration-tests>false</skip.integration-tests>
-
+    
     <!-- For SonarQube -->
+    <sonar.projectKey>alessandroferi_bookshop-project2</sonar.projectKey>
+    
     <sonar.coverage.jacoco.xmlReportPaths>
       ${project.reporting.outputDirectory}/jacoco/jacoco.xml
     </sonar.coverage.jacoco.xmlReportPaths>
