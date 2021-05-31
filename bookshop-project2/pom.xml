@@ -308,7 +308,7 @@
 	      </configuration>
 	    </plugin>
 	    
-	    <!-- You must run coveralls:report explicitly specifying that in travis.yml -->
+	    <!-- You must run coveralls:report explicitly -->
 	    <plugin>
 	      <groupId>org.eluder.coveralls</groupId>
 	      <artifactId>coveralls-maven-plugin</artifactId>
