@@ -77,8 +77,7 @@ public class BookshopWebControllerTest {
 				.param("email", "email@gmail")
 				.param("username", "username")
 				.param("password", "password")).
-		andExpect(view().name("registrationResult")).
-		andExpect(model().attribute("message", EMPTY_MESSAGE));
+		andExpect(view().name("registrationResult"));
 		
 		verify(userService).findUserByEmail("email@gmail");
 		verify(userService).findUserByUsername("username");

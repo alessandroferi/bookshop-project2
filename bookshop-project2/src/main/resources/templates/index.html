@@ -50,7 +50,7 @@ body {
   <!-- IF NO BOOKS -->
   <div class="center-elements" th:if="${books.empty}">
     <div>
-      <h4>There are no books.</h4>
+      <h4 th:text="${message}"></h4>
     </div>
   </div>
   <!-- ELSE -->
