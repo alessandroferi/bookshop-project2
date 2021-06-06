@@ -4,7 +4,6 @@ import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
@@ -21,30 +20,23 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.context.annotation.Import;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.test.web.ModelAndViewAssert;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import com.feri.alessandro.attsw.project.model.Book;
-import com.feri.alessandro.attsw.project.model.User;
 import com.feri.alessandro.attsw.project.repositories.BookRepository;
-import com.feri.alessandro.attsw.project.repositories.UserRepository;
+import com.feri.alessandro.attsw.project.security.SecurityConfiguration;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
-public class BookshopWebControllerIT {
+@Import(SecurityConfiguration.class)
+public class BookWebControllerIT {
 	
 	private static final String EMPTY_MESSAGE = "";
-
-	@Autowired
-	private UserRepository userRepository;
-	
-	@Autowired
-	private BCryptPasswordEncoder bCryptPasswordEncoder;
 	
 	@Autowired
 	private BookRepository bookRepository;
@@ -62,87 +54,13 @@ public class BookshopWebControllerIT {
 				webAppContextSetup(context).
 					apply(springSecurity()).
 						build();
-		
-		userRepository.deleteAll();
+
 		bookRepository.deleteAll();
 	}
 	
 	@After
 	public void tearDown() {
-		userRepository.deleteAll();
 		bookRepository.deleteAll();
-	}
-	
-	
-	@Test
-	public void test_returnLoginPageView() throws Exception {		
-		ModelAndViewAssert.assertViewName(
-				mvc.perform(get("/login")).
-					andReturn().getModelAndView(), "login");
-	}
-	
-	@Test
-	public void test_returnRegistrationPageView() throws Exception {
-		ModelAndViewAssert.assertViewName(
-				mvc.perform(get("/registration")).
-					andReturn().getModelAndView(), "registration");
-	}
-	
-	@Test
-	public void test_createNewUser_shouldReturnResultPage() throws Exception {
-		ModelAndViewAssert.assertViewName(mvc.perform(post("/saveUser")
-				.param("email", "email@gmail")
-				.param("username", "test")
-				.param("password", "password")).andReturn().getModelAndView(), "registrationResult");
-		
-		assertEquals(1, userRepository.findAll().size());
-		
-		User saved = userRepository.findAll().get(0);
-		
-		assertEquals("email@gmail", saved.getEmail());
-		assertEquals("test", saved.getUsername());
-		assertTrue(bCryptPasswordEncoder.matches("password", saved.getPassword()));
-		
-	}
-	
-	@Test
-	public void test_createNewUser_WhenEmailAlreadyExistShouldNotSaveTheUser_andShouldReturnResultPage() throws Exception {
-		User saved = new User(null, "already_existent@gmail", "username", "password");
-		
-		userRepository.save(saved);
-		
-		ModelAndViewAssert.assertViewName(mvc.perform(post("/saveUser")
-				.param("email", "already_existent@gmail")
-				.param("username", "not_existent")
-				.param("password", "pass")).andReturn().getModelAndView(), "registrationResult");
-		
-		assertEquals(1, userRepository.findAll().size());
-		assertThat(userRepository.findAll()).containsExactly(saved);
-		
-		
-	}
-	
-	@Test
-	public void test_createNewUser_WhenUsernamaAlreadyExistShouldNotSaveTheUser_andShouldReturnResultPage() throws Exception {
-		User saved = new User(null, "email@gmail", "already_existent", "password");
-		
-		userRepository.save(saved);
-		
-		ModelAndViewAssert.assertViewName(mvc.perform(post("/saveUser")
-				.param("email", "not_existent@gmail")
-				.param("username", "already_existent")
-				.param("password", "pass")).andReturn().getModelAndView(), "registrationResult");
-		
-		assertEquals(1, userRepository.findAll().size());
-		assertThat(userRepository.findAll()).containsExactly(saved);
-	}
-	
-	@Test
-	@WithMockUser
-	public void test_returnHomePageView() throws Exception {
-		ModelAndViewAssert.assertViewName(
-				mvc.perform(get("/")).
-					andReturn().getModelAndView(), "index");
 	}
 	
 	@Test
@@ -197,7 +115,7 @@ public class BookshopWebControllerIT {
 			andExpect(model().attribute("book", nullValue())).
 			andExpect(model().attribute("message", "Book not found!"));
 		
-		assertThat(userRepository.findAll()).isEmpty();
+		assertThat(bookRepository.findAll()).isEmpty();
 	}
 	
 	@Test
@@ -215,6 +133,8 @@ public class BookshopWebControllerIT {
 	@WithMockUser
 	public void test_saveWithoutId_shouldInsertBookIntoRepository_andRedirectToHomePage() throws Exception {
 		
+		assertThat(bookRepository.findAll()).isEmpty();
+		
 		mvc.perform(post("/save")
 				.param("title", "title1")
 				.param("author", "author1")
@@ -231,6 +151,8 @@ public class BookshopWebControllerIT {
 		
 		bookRepository.save(saved);
 		
+		assertEquals(1, bookRepository.findAll().size());
+		
 		BigInteger id = bookRepository.findAll().get(0).getId();
 		
 		mvc.perform(post("/save")
@@ -240,9 +162,9 @@ public class BookshopWebControllerIT {
 				.param("price", "15.0")).
 			andExpect(view().name("redirect:/"));
 		
-		Book updated = bookRepository.findAll().get(0);
+		assertEquals(1, bookRepository.findAll().size());
 		
-		assertThat(bookRepository.findAll()).containsExactly(updated);
+		Book updated = bookRepository.findAll().get(0);
 		
 		assertEquals(saved.getId(), updated.getId());
 		assertThat(updated.getTitle()).isEqualTo("modified_title");
@@ -270,7 +192,7 @@ public class BookshopWebControllerIT {
 	
 	@Test
 	@WithMockUser
-	public void test_searchWithEmptyText_shouldShowErrorMessage() throws Exception {
+	public void test_searchWithEmptyText_shouldShowError() throws Exception {
 		mvc.perform(get("/search").
 				param("title_searched", "")).
 			andExpect(view().name("search")).
@@ -282,6 +204,8 @@ public class BookshopWebControllerIT {
 	public void test_deleteBook_shouldDeleteFromRepository_andRedirectToHomepage() throws Exception {
 		Book saved = new Book(null, "title", "author", 10.0);
 		bookRepository.save(saved);
+		
+		assertThat(bookRepository.findAll()).containsExactly(saved);
 		
 		BigInteger id = bookRepository.findAll().get(0).getId();
 		
@@ -300,6 +224,8 @@ public class BookshopWebControllerIT {
 				new Book(null, "title3", "author3", 20.0));
 		
 		bookRepository.saveAll(books);
+		
+		assertEquals(3, bookRepository.findAll().size());
 		
 		mvc.perform(get("/deleteAll")).
 			andExpect(view().name("redirect:/"));

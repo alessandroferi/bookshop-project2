@@ -9,7 +9,7 @@ import io.github.bonigarcia.wdm.WebDriverManager;
 
 @RunWith(Cucumber.class)
 @CucumberOptions(features = "src/e2e/resources/registration_and_login.feature", monochrome = true)
-public class RegistrationAndLoginE2E {
+public class UserWebControllerE2E {
 
 	@BeforeClass
 	public static void setUpDriver() {
