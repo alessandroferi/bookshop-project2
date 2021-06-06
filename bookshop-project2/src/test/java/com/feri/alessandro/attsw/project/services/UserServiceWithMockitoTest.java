@@ -14,7 +14,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.feri.alessandro.attsw.project.exception.EmailExistException;
 import com.feri.alessandro.attsw.project.exception.UsernameExistException;
@@ -29,7 +29,7 @@ public class UserServiceWithMockitoTest {
 	private UserRepository userRepository;
 	
 	@Mock
-	private BCryptPasswordEncoder bCryptPasswordEncoder;
+	private PasswordEncoder bCryptPasswordEncoder;
 	
 	@InjectMocks
 	private UserService userService;
