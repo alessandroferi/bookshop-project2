@@ -9,11 +9,12 @@ import java.util.Optional;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.InOrder;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.feri.alessandro.attsw.project.exception.EmailExistException;
 import com.feri.alessandro.attsw.project.exception.UsernameExistException;
@@ -28,7 +29,7 @@ public class UserServiceWithMockitoTest {
 	private UserRepository userRepository;
 	
 	@Mock
-	private BCryptPasswordEncoder bCryptPasswordEncoder;
+	private PasswordEncoder bCryptPasswordEncoder;
 	
 	@InjectMocks
 	private UserService userService;
@@ -106,13 +107,16 @@ public class UserServiceWithMockitoTest {
 	public void test_saveUser() {
 		User user = new User(null, "email", "username", "password");
 		
-		when(userRepository.save(isA(User.class))).thenReturn(user);
 		when(bCryptPasswordEncoder.encode(user.getPassword())).thenReturn("password_encoded");
 	
 		userService.saveUser(user);
 		
 		assertThat(user.getPassword()).isEqualTo("password_encoded");
-		verify(userRepository).save(isA(User.class));
+		
+		InOrder inOrder = inOrder(userRepository, bCryptPasswordEncoder);
+		inOrder.verify(bCryptPasswordEncoder).encode(anyString());
+		inOrder.verify(userRepository).save(isA(User.class));
+	
 	}
 	
 }

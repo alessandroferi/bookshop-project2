@@ -108,8 +108,8 @@ public class BookshopSteps {
 
 	}
 	
-	@Then("The {string} is shown and it contains a book with {string}, {string}, and price {string}")
-	public void the_is_shown_and_it_contains_a_book_with_and_price(String table, String title, String author, String price) {
+	@Then("The {string} is shown and contains a book with {string}, {string}, and price {string}")
+	public void the_is_shown_and_contains_a_book_with_and_price(String table, String title, String author, String price) {
 	    webDriver.findElement(By.id(table));
 	    
 	    assertThat(webDriver.findElement(By.id(table)).getText()).
@@ -135,4 +135,16 @@ public class BookshopSteps {
 	    webDriver.findElement(By.name("title_searched")).sendKeys(searchedTitle);
 	    
 	}
+
+	@When("I try to edit a non existing book")
+	public void i_try_to_edit_a_non_existing_book() {
+		webDriver.get(baseUrl + "/edit/99");
+	}
+	
+	@When("I try to delete a non existing book")
+	public void i_try_to_delete_a_non_existing_book() {
+	    webDriver.get(baseUrl + "/delete?id=99");
+	}
+
+	
 }

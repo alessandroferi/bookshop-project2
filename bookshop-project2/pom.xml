@@ -19,18 +19,18 @@
     <java.version>1.8</java.version>
     <groovy.version>3.0.6</groovy.version>
     <cucumber.version>5.5.0</cucumber.version>
-    <sonar.projectKey>alessandroferi_bookshop-project2</sonar.projectKey>
-    <sonar.scanner.force-deprecated-node-version-grace-period>true</sonar.scanner.force-deprecated-node-version-grace-period>
     
     <skip.unit-tests>false</skip.unit-tests>
     <skip.integration-tests>false</skip.integration-tests>
-
+    
     <!-- For SonarQube -->
+    <sonar.projectKey>alessandroferi_bookshop-project2</sonar.projectKey>
+    
     <sonar.coverage.jacoco.xmlReportPaths>
       ${project.reporting.outputDirectory}/jacoco/jacoco.xml
     </sonar.coverage.jacoco.xmlReportPaths>
     
-    <!-- Also includes integration tests -->
+    <!-- If you need that, also includes integration tests -->
     <sonar.junit.reportPaths>
       ${project.build.directory}/surefire-reports,
       ${project.build.directory}/failsafe-reports
@@ -40,7 +40,7 @@
     <sonar.sources>
       pom.xml,
       ${project.build.sourceDirectory},
-      ${basedir}/src/main/resources
+      ${basedir}/src/main/resources/templates
     </sonar.sources>
     	 
     <sonar.coverage.exclusions>
@@ -90,12 +90,6 @@
 	<dependency>
 	  <groupId>org.springframework.boot</groupId>
 	  <artifactId>spring-boot-devtools</artifactId>
-	  <scope>runtime</scope>
-	</dependency>
-	
-	<dependency>
-	  <groupId>com.h2database</groupId>
-	  <artifactId>h2</artifactId>
 	  <scope>runtime</scope>
 	</dependency>
 	
@@ -314,7 +308,7 @@
 	      </configuration>
 	    </plugin>
 	    
-	    <!-- You must run coveralls:report explicitly specifying that in travis.yml -->
+	    <!-- You must run coveralls:report explicitly -->
 	    <plugin>
 	      <groupId>org.eluder.coveralls</groupId>
 	      <artifactId>coveralls-maven-plugin</artifactId>

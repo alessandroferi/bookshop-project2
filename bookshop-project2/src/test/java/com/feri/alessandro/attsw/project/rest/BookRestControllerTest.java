@@ -14,14 +14,11 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
-import org.springframework.context.support.StaticApplicationContext;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.web.servlet.HandlerExceptionResolver;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
 
-import com.feri.alessandro.attsw.project.exception.BookshopRestExceptionHandler;
 import com.feri.alessandro.attsw.project.exception.BookNotFoundException;
+import com.feri.alessandro.attsw.project.exception.BookshopRestExceptionHandler;
 import com.feri.alessandro.attsw.project.model.Book;
 import com.feri.alessandro.attsw.project.services.BookService;
 
@@ -38,25 +35,13 @@ public class BookRestControllerTest {
 	@InjectMocks
 	private BookRestController bookRestController;
 	
-	private HandlerExceptionResolver initBookExceptionHandlerResolvers() {
-		StaticApplicationContext applicationContext = new StaticApplicationContext();
-		applicationContext.registerSingleton("exceptionHandler", BookshopRestExceptionHandler.class);
-		
-		WebMvcConfigurationSupport webMvcConfigurationSupport = new WebMvcConfigurationSupport();
-		webMvcConfigurationSupport.setApplicationContext(applicationContext);
-		
-		return webMvcConfigurationSupport.handlerExceptionResolver();
-	}
 	
 	@Before
 	public void setUp() {
-		HandlerExceptionResolver handlerExceptionResolver = initBookExceptionHandlerResolvers();
-		
 		RestAssuredMockMvc.standaloneSetup(
 				MockMvcBuilders
-					.standaloneSetup(bookRestController)
-					.setHandlerExceptionResolvers(handlerExceptionResolver)
-		);
+					.standaloneSetup(bookRestController).
+						setControllerAdvice(new BookshopRestExceptionHandler()));
 	}
 	
 	@Test
@@ -144,7 +129,7 @@ public class BookRestControllerTest {
 	}
 	
 	@Test
-	public void test_getBookByTitle_WithNonExistingTitle() throws BookNotFoundException {
+	public void testGET_getBookByTitle_WithNonExistingTitle() throws BookNotFoundException {
 		when(bookService.getBookByTitle(anyString())).thenThrow(BookNotFoundException.class);
 		
 		given().
@@ -160,7 +145,7 @@ public class BookRestControllerTest {
 	}
 	
 	@Test
-	public void test_getBookByTitle_WithExistingTitle() throws BookNotFoundException {
+	public void testGET_getBookByTitle_WithExistingTitle() throws BookNotFoundException {
 		when(bookService.getBookByTitle(anyString())).
 			thenReturn(asList(
 					new Book(BigInteger.valueOf(1), "testTitle", "author1", 10.0),
