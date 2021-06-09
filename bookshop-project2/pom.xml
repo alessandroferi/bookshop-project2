@@ -427,10 +427,6 @@
 	              <excludes>
 	                <exclude>**/*E2E.java</exclude>
 	              </excludes>
-	              <includes>
-	                <include>**/*ApplicationTests.java</include>
-	                <include>**/*IT.java</include>
-	              </includes>
 	            </configuration>
 	          </execution>
 	        </executions>
