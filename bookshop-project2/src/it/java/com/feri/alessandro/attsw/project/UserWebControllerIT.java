@@ -16,7 +16,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.context.annotation.Import;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.ModelAndViewAssert;
 import org.springframework.test.web.servlet.MockMvc;
@@ -75,7 +74,7 @@ public class UserWebControllerIT {
 	}
 	
 	@Test
-	public void test_createNewUser_shouldReturnResultPage() throws Exception {
+	public void test_createNewUser_shouldReturnResultPageAndCreateNewUser() throws Exception {
 		ModelAndViewAssert.assertViewName(mvc.perform(post("/saveUser")
 				.param("email", "email@gmail")
 				.param("username", "test")
@@ -93,30 +92,23 @@ public class UserWebControllerIT {
 	
 	@Test
 	public void test_createNewUser_WhenEmailAlreadyExistShouldNotSaveTheUser_andShouldReturnResultPage() throws Exception {
-		User saved = new User();
-		saved.setEmail("already_exist@gmail");
-		saved.setUsername("username");
-		saved.setPassword("password");
+		User saved = new User(null, "already_exist@gmail", "username", "password");
 		
 		userRepository.save(saved);
 		
 		ModelAndViewAssert.assertViewName(mvc.perform(post("/saveUser")
 				.param("email", "already_exist@gmail")
-				.param("username", "user")
+				.param("username", "not_exist")
 				.param("password", "pass")).andReturn().getModelAndView(), "registrationResult");
 		
 		assertEquals(1, userRepository.findAll().size());
 		assertThat(userRepository.findAll()).containsExactly(saved);
 		
-		
 	}
 	
 	@Test
 	public void test_createNewUser_WhenUsernamaAlreadyExistShouldNotSaveTheUser_andShouldReturnResultPage() throws Exception {
-		User saved = new User();
-		saved.setEmail("email@gmail");
-		saved.setUsername("already_exist");
-		saved.setPassword("password");
+		User saved = new User(null, "email@gmail", "already_exist", "password");
 		
 		userRepository.save(saved);
 		
@@ -128,14 +120,5 @@ public class UserWebControllerIT {
 		assertEquals(1, userRepository.findAll().size());
 		assertThat(userRepository.findAll()).containsExactly(saved);
 	}
-	
-	@Test
-	@WithMockUser
-	public void test_returnHomePageView() throws Exception {
-		ModelAndViewAssert.assertViewName(
-				mvc.perform(get("/")).
-					andReturn().getModelAndView(), "index");
-	}
-	
 	
 }

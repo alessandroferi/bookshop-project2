@@ -23,6 +23,7 @@ import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.context.annotation.Import;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.web.ModelAndViewAssert;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
@@ -61,6 +62,15 @@ public class BookWebControllerIT {
 	@After
 	public void tearDown() {
 		bookRepository.deleteAll();
+	}
+	
+	
+	@Test
+	@WithMockUser
+	public void test_returnHomePageView() throws Exception {
+		ModelAndViewAssert.assertViewName(
+				mvc.perform(get("/")).
+					andReturn().getModelAndView(), "index");
 	}
 	
 	@Test
