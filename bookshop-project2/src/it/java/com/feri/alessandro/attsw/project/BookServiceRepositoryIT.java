@@ -2,12 +2,16 @@ package com.feri.alessandro.attsw.project;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
+import static java.util.Arrays.asList;
+
+import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
+import org.springframework.context.annotation.Import;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.feri.alessandro.attsw.project.exception.BookNotFoundException;
@@ -16,7 +20,8 @@ import com.feri.alessandro.attsw.project.repositories.BookRepository;
 import com.feri.alessandro.attsw.project.services.BookService;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest
+@DataMongoTest
+@Import(BookService.class)
 public class BookServiceRepositoryIT {
 	
 	@Autowired
@@ -38,6 +43,31 @@ public class BookServiceRepositoryIT {
 		assertThat(bookRepository.findById(saved.getId())).isPresent();
 	}
 
+	@Test
+	public void test_serviceCanRetrieveFromRepositoryUsingId() throws BookNotFoundException {
+		Book saved = bookRepository.save(new Book(null, "title", "author", 10.0));
+		
+		Book result = bookService.getBookById(saved.getId());
+		
+		assertThat(bookRepository.findById(saved.getId()).get()).isEqualTo(result);
+		
+	}
+
+	@Test
+	public void test_serviceCanRetrieveFromRepositoryUsingTitle() throws BookNotFoundException {
+		String title = "title";
+		
+		bookRepository.saveAll(
+				asList(new Book(null, "title", "author1", 10.0), new Book(null, "title", "author2", 15.0),
+						new Book(null, "different_title", "author", 20.0)));
+		
+		List<Book> result = bookService.getBookByTitle(title);
+		
+		assertThat(bookRepository.findByTitle(title)).isEqualTo(result);
+		assertThat(result.size()).isEqualTo(2).isEqualTo(bookRepository.findByTitle(title).size());
+		
+	}
+	
 	@Test
 	public void test_serviceCanUpdateIntoRepository() throws BookNotFoundException {
 		Book saved = bookRepository.save(new Book(null, "title", "author", 10.0));

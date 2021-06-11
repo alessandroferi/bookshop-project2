@@ -10,7 +10,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
+import org.springframework.context.annotation.Import;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -19,10 +20,12 @@ import com.feri.alessandro.attsw.project.exception.EmailExistException;
 import com.feri.alessandro.attsw.project.exception.UsernameExistException;
 import com.feri.alessandro.attsw.project.model.User;
 import com.feri.alessandro.attsw.project.repositories.UserRepository;
+import com.feri.alessandro.attsw.project.security.SecurityConfiguration;
 import com.feri.alessandro.attsw.project.services.UserService;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest
+@DataMongoTest
+@Import({UserService.class, SecurityConfiguration.class})
 public class UserServiceRepositoryIT {
 
 	@Autowired
