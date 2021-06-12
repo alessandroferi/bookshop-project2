@@ -83,7 +83,7 @@ public class BookServiceWithMockitoTest {
 				bookService.getBookById(null)).
 					isInstanceOf(IllegalArgumentException.class);
 		
-		verifyZeroInteractions(bookRepository);
+		verifyNoInteractions(bookRepository);
 	}
 	
 	@Test
@@ -127,7 +127,7 @@ public class BookServiceWithMockitoTest {
 				bookService.getBookByTitle(null)).
 					isInstanceOf(IllegalArgumentException.class);
 		
-		verifyZeroInteractions(bookRepository);
+		verifyNoInteractions(bookRepository);
 	}
 	
 	
@@ -168,7 +168,7 @@ public class BookServiceWithMockitoTest {
 				bookService.insertNewBook(null)).
 					isInstanceOf(IllegalArgumentException.class);
 		
-		verifyZeroInteractions(bookRepository);
+		verifyNoInteractions(bookRepository);
 	}
 	
 	@Test
@@ -199,7 +199,7 @@ public class BookServiceWithMockitoTest {
 				bookService.editBookById(null, book)).
 					isInstanceOf(IllegalArgumentException.class);
 		
-		verifyZeroInteractions(bookRepository);
+		verifyNoInteractions(bookRepository);
 	}
 	
 
@@ -207,7 +207,7 @@ public class BookServiceWithMockitoTest {
 	public void test_editBookById_withNullBook_shouldThrowException() throws BookNotFoundException {
 		bookService.editBookById(BigInteger.valueOf(1), null);
 		
-		verifyZeroInteractions(bookRepository);
+		verifyNoInteractions(bookRepository);
 	}
 	
 	
@@ -241,7 +241,7 @@ public class BookServiceWithMockitoTest {
 				bookService.deleteOneBook(null)).
 					isInstanceOf(IllegalArgumentException.class);
 		
-		verifyZeroInteractions(bookRepository);
+		verifyNoInteractions(bookRepository);
 	}
 	
 	@Test
@@ -252,7 +252,7 @@ public class BookServiceWithMockitoTest {
 				bookService.deleteOneBook(saved)).
 					isInstanceOf(IllegalArgumentException.class);
 		
-		verifyZeroInteractions(bookRepository);
+		verifyNoInteractions(bookRepository);
 	}
 	
 	@Test
