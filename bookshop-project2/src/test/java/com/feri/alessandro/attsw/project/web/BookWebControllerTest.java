@@ -4,8 +4,8 @@ import static java.util.Arrays.asList;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
-import static org.mockito.Mockito.verifyZeroInteractions;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -129,7 +129,7 @@ public class BookWebControllerTest {
 		 	.andExpect(model().attribute("book", new Book()))
 		 	.andExpect(model().attribute("message", EMPTY_MESSAGE));
 		 
-		 verifyZeroInteractions(bookService);
+		 verifyNoInteractions(bookService);
 	 }
 	 
 	 @Test

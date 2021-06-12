@@ -23,6 +23,8 @@ import com.feri.alessandro.attsw.project.model.Book;
 import com.feri.alessandro.attsw.project.services.BookService;
 
 import io.restassured.module.mockmvc.RestAssuredMockMvc;
+import io.restassured.module.mockmvc.config.MockMvcConfig;
+import io.restassured.module.mockmvc.config.RestAssuredMockMvcConfig;
 
 @RunWith(MockitoJUnitRunner.class)
 public class BookRestControllerTest {
@@ -48,7 +50,7 @@ public class BookRestControllerTest {
 	public void testGET_allBooksEmpty() {
 		when(bookService.getAllBooks()).thenReturn(Collections.emptyList());
 		
-		given().
+		given().config(noSecurity()).
 		when().
 			get("/api/books").
 		then().
@@ -68,7 +70,7 @@ public class BookRestControllerTest {
 		Book testBook2 = new Book(BigInteger.valueOf(2), "secondTitle", "author2", 9.0);
 		when(bookService.getAllBooks()).thenReturn(asList(testBook1, testBook2));
 		
-		given().
+		given().config(noSecurity()).
 		when().
 			get("/api/books").
 		then().
@@ -93,7 +95,7 @@ public class BookRestControllerTest {
 	public void testGET_getBookById_WithNonExistingId() throws BookNotFoundException {
 		when(bookService.getBookById(BigInteger.valueOf(1))).thenThrow(BookNotFoundException.class);
 		
-		given().
+		given().config(noSecurity()).
 		when().
 			get("api/books/id/1").
 		then().
@@ -111,7 +113,7 @@ public class BookRestControllerTest {
 		when(bookService.getBookById(BigInteger.valueOf(1))).
 				thenReturn(new Book(BigInteger.valueOf(1), "testTitle", "author1", 7.0));
 		
-		given().
+		given().config(noSecurity()).
 		when().
 			get("api/books/id/1").
 		then().
@@ -132,7 +134,7 @@ public class BookRestControllerTest {
 	public void testGET_getBookByTitle_WithNonExistingTitle() throws BookNotFoundException {
 		when(bookService.getBookByTitle(anyString())).thenThrow(BookNotFoundException.class);
 		
-		given().
+		given().config(noSecurity()).config(noSecurity()).
 		when().
 			get("api/books/title/notFound").
 		then().
@@ -151,7 +153,7 @@ public class BookRestControllerTest {
 					new Book(BigInteger.valueOf(1), "testTitle", "author1", 10.0),
 						new Book(BigInteger.valueOf(2), "testTitle", "author2", 15.0)));
 		
-		given().
+		given().config(noSecurity()).
 		when().
 			get("api/books/title/testTitle").
 		then().
@@ -178,7 +180,7 @@ public class BookRestControllerTest {
 		when(bookService.insertNewBook(requesBodyBook)).
 			thenReturn(new Book(BigInteger.valueOf(1), "testTitle", "author1", 7.0));
 		
-		given().
+		given().config(noSecurity()).
 			contentType(MediaType.APPLICATION_JSON_VALUE).
 			body(requesBodyBook).
 		when().
@@ -200,7 +202,7 @@ public class BookRestControllerTest {
 		Book book = new Book(null, "testTitle", "author1", 0.0);
 		when(bookService.editBookById(BigInteger.valueOf(1), book)).thenThrow(BookNotFoundException.class);
 		
-		given().
+		given().config(noSecurity()).
 			contentType(MediaType.APPLICATION_JSON_VALUE).
 			body(book).
 		when().
@@ -219,7 +221,7 @@ public class BookRestControllerTest {
 		when(bookService.editBookById(BigInteger.valueOf(1), requestBodyBook)).
 			thenReturn(new Book(BigInteger.valueOf(1), "testTitle", "author1", 10.0));
 		
-		given().
+		given().config(noSecurity()).
 			contentType(MediaType.APPLICATION_JSON_VALUE).
 			body(requestBodyBook).
 		when().
@@ -241,7 +243,7 @@ public class BookRestControllerTest {
 	public void testDELETE_deleteBookById_WithNonExistingId() throws BookNotFoundException {
 		when(bookService.getBookById(BigInteger.valueOf(1))).thenThrow(BookNotFoundException.class);
 		
-		given().
+		given().config(noSecurity()).
 		when().
 			delete("api/books/delete/1").
 		then().
@@ -258,7 +260,7 @@ public class BookRestControllerTest {
 		Book bookToDelete = new Book(BigInteger.valueOf(1), "testTitle", "author1", 10.0);
 		when(bookService.getBookById(BigInteger.valueOf(1))).thenReturn(bookToDelete);
 		
-		given().
+		given().config(noSecurity()).
 		when().
 			delete("api/books/delete/1").
 		then().
@@ -271,7 +273,7 @@ public class BookRestControllerTest {
 	@Test
 	public void testDELETE_deleteAllBooks() {
 		
-		given().
+		given().config(noSecurity()).
 		when().
 			delete("api/books/deleteAll").
 		then().
@@ -280,4 +282,9 @@ public class BookRestControllerTest {
 		verify(bookService, times(1)).deleteAllBooks();
 	}
 
+	private RestAssuredMockMvcConfig noSecurity() {
+    
+		return RestAssuredMockMvcConfig.config().mockMvcConfig(
+    		MockMvcConfig.mockMvcConfig().dontAutomaticallyApplySpringSecurityMockMvcConfigurer());
+	}
 }
