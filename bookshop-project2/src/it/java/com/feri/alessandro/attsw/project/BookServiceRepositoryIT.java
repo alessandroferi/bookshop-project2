@@ -49,7 +49,7 @@ public class BookServiceRepositoryIT {
 		
 		Book result = bookService.getBookById(saved.getId());
 		
-		assertThat(bookRepository.findById(saved.getId()).get()).isEqualTo(result);
+		assertEquals(bookRepository.findById(saved.getId()).get(), result);
 		
 	}
 
