@@ -63,6 +63,7 @@ public class BookWebController {
 		book.setPrice(bookDTO.getPrice());
 		
 		BigInteger id = book.getId();
+		
 		if(id == null) {
 			bookService.insertNewBook(book);
 		} else {
@@ -88,7 +89,7 @@ public class BookWebController {
 	}
 	
 	@GetMapping("/delete")
-	public String deleteBook(@RequestParam("id") BigInteger id, Model model) throws BookNotFoundException {
+	public String deleteBook(@RequestParam("id") BigInteger id) throws BookNotFoundException {
 		Book toDelete = bookService.getBookById(id);
 		bookService.deleteOneBook(toDelete);
 		

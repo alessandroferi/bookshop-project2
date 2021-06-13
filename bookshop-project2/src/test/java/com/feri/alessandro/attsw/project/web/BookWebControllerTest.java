@@ -237,7 +237,10 @@ public class BookWebControllerTest {
 		 
 		 when(bookService.getBookById(BigInteger.valueOf(1))).thenReturn(toDelete);
 		 
-		 mvc.perform(get("/delete?id=1"))
+		 String deletedId = BigInteger.valueOf(1).toString();
+		 
+		 mvc.perform(get("/delete")
+				 .param("id", deletedId))
 		 	.andExpect(view().name("redirect:/"));
 		 
 		 verify(bookService, times(1)).getBookById(BigInteger.valueOf(1));
@@ -249,7 +252,10 @@ public class BookWebControllerTest {
 	 public void test_deleteBook_whenBookNotFound() throws Exception {
 		 when(bookService.getBookById(BigInteger.valueOf(1))).thenThrow(BookNotFoundException.class);
 		 
-		 mvc.perform(get("/delete?id=1"))
+		 String deletedId = BigInteger.valueOf(1).toString();
+		 
+		 mvc.perform(get("/delete").
+				 param("id", deletedId))
 		 	.andExpect(view().name("bookNotFound"))
 		 	.andExpect(model().attribute("message", BOOK_NOT_FOUND))
 		 	.andExpect(status().is(404));
