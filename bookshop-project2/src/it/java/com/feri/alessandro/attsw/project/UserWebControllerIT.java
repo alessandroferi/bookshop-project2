@@ -15,7 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.context.annotation.Import;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.ModelAndViewAssert;
 import org.springframework.test.web.servlet.MockMvc;
@@ -38,7 +38,7 @@ public class UserWebControllerIT {
 	private WebApplicationContext context;
 	
 	@Autowired
-	private BCryptPasswordEncoder bCryptPasswordEncoder;
+	private PasswordEncoder passwordEncoder;
 	
 	private MockMvc mvc;
 
@@ -86,7 +86,7 @@ public class UserWebControllerIT {
 		
 		assertEquals("email@gmail", saved.getEmail());
 		assertEquals("test", saved.getUsername());
-		assertTrue(bCryptPasswordEncoder.matches("password", saved.getPassword()));
+		assertTrue(passwordEncoder.matches("password", saved.getPassword()));
 		
 	}
 	
