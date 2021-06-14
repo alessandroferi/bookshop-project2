@@ -34,7 +34,6 @@ import com.feri.alessandro.attsw.project.security.SecurityConfiguration;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
-@Import(SecurityConfiguration.class)
 public class BookWebControllerIT {
 	
 	private static final String EMPTY_MESSAGE = "";
