@@ -1,6 +1,5 @@
 package com.feri.alessandro.attsw.project.services;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -15,10 +14,8 @@ import com.feri.alessandro.attsw.project.repositories.UserRepository;
 @Service
 public class UserService implements UserDetailsService {
 
-	@Autowired
 	private UserRepository userRepository;
 
-	@Autowired
 	private PasswordEncoder passwordEncoder;
 
 	public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {

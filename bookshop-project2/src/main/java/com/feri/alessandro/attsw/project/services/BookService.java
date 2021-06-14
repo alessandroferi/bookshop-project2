@@ -3,7 +3,6 @@ package com.feri.alessandro.attsw.project.services;
 import java.math.BigInteger;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.feri.alessandro.attsw.project.exception.BookNotFoundException;
@@ -15,7 +14,6 @@ public class BookService {
 
 	private static final String BOOK_NOT_FOUND = "Book not found!";
 	
-	@Autowired
 	private BookRepository bookRepository;
 	
 	public BookService(BookRepository bookRepository) {
