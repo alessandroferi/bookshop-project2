@@ -2,7 +2,6 @@ package com.feri.alessandro.attsw.project.web;
 
 import static java.util.Arrays.asList;
 import static org.hamcrest.CoreMatchers.nullValue;
-import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
@@ -69,7 +68,7 @@ public class BookWebControllerTest {
 		 	.andExpect(model().attribute("books", Collections.emptyList()))
 		 	.andExpect(model().attribute("message", "There are no books."));
 		 
-		 verify(bookService, times(1)).getAllBooks();
+		 verify(bookService).getAllBooks();
 		 verifyNoMoreInteractions(bookService);
 	 }
 	 
@@ -85,7 +84,7 @@ public class BookWebControllerTest {
 		 	.andExpect(model().attribute("books", books))
 		 	.andExpect(model().attribute("message", EMPTY_MESSAGE));
 		 
-		 verify(bookService, times(1)).getAllBooks();
+		 verify(bookService).getAllBooks();
 		 verifyNoMoreInteractions(bookService);	 
 	 }
 	 
@@ -100,7 +99,7 @@ public class BookWebControllerTest {
 		 	.andExpect(model().attribute("message", BOOK_NOT_FOUND))
 		 	.andExpect(status().is(404));
 		 
-		 verify(bookService, times(1)).getBookById(BigInteger.valueOf(1));
+		 verify(bookService).getBookById(BigInteger.valueOf(1));
 		 verifyNoMoreInteractions(bookService);
 	 }
 	 
@@ -116,7 +115,7 @@ public class BookWebControllerTest {
 		 	.andExpect(model().attribute("book", found))
 		 	.andExpect(model().attribute("message", EMPTY_MESSAGE));
 		 
-		 verify(bookService, times(1)).getBookById(BigInteger.valueOf(1));
+		 verify(bookService).getBookById(BigInteger.valueOf(1));
 		 verifyNoMoreInteractions(bookService);
 		 
 	 }
@@ -141,7 +140,7 @@ public class BookWebControllerTest {
 				 .param("price", "10"))
 		 	.andExpect(view().name("redirect:/"));
 		 	
-			verify(bookService, times(1)).insertNewBook(
+			verify(bookService).insertNewBook(
 					new Book(null, "testedTitle", "testedAuthor", 10.0));
 			verifyNoMoreInteractions(bookService);
 	 }
@@ -156,7 +155,7 @@ public class BookWebControllerTest {
 				 .param("price", "10"))
 		 	.andExpect(view().name("redirect:/"));
 
-		 verify(bookService, times(1)).editBookById(
+		 verify(bookService).editBookById(
 				 BigInteger.valueOf(1), new Book(BigInteger.valueOf(1), "testedTitle", "testedAuthor", 10.0));
 		 verifyNoMoreInteractions(bookService);
 	 }
@@ -178,7 +177,7 @@ public class BookWebControllerTest {
 		 	.andExpect(model().attribute("message", BOOK_NOT_FOUND))
 		 	.andExpect(status().is(404));	 	
 		 
-		 verify(bookService, times(1)).editBookById(BigInteger.valueOf(1), replacement);
+		 verify(bookService).editBookById(BigInteger.valueOf(1), replacement);
 		 verifyNoMoreInteractions(bookService);
 	 }
 	 
@@ -197,7 +196,7 @@ public class BookWebControllerTest {
 		 	.andExpect(model().attribute("message", EMPTY_MESSAGE))
 		 	.andExpect(view().name("search"));
 		 
-		 verify(bookService, times(1)).getBookByTitle(search);
+		 verify(bookService).getBookByTitle(search);
 		 verifyNoMoreInteractions(bookService);
 	 }
 	 
@@ -215,7 +214,7 @@ public class BookWebControllerTest {
 		 	.andExpect(view().name("bookNotFound"))
 		 	.andExpect(status().is(404));
 		 
-		 verify(bookService, times(1)).getBookByTitle(search);
+		 verify(bookService).getBookByTitle(search);
 		 verifyNoMoreInteractions(bookService);
 	 }
 	 
@@ -243,8 +242,8 @@ public class BookWebControllerTest {
 				 .param("id", deletedId))
 		 	.andExpect(view().name("redirect:/"));
 		 
-		 verify(bookService, times(1)).getBookById(BigInteger.valueOf(1));
-		 verify(bookService, times(1)).deleteOneBook(toDelete);
+		 verify(bookService).getBookById(BigInteger.valueOf(1));
+		 verify(bookService).deleteOneBook(toDelete);
 	 }
 	 
 	 @Test
@@ -260,7 +259,7 @@ public class BookWebControllerTest {
 		 	.andExpect(model().attribute("message", BOOK_NOT_FOUND))
 		 	.andExpect(status().is(404));
 		 
-		 verify(bookService, times(1)).getBookById(BigInteger.valueOf(1));
+		 verify(bookService).getBookById(BigInteger.valueOf(1));
 		 verifyNoMoreInteractions(bookService);
 	 }
 	 
@@ -270,7 +269,7 @@ public class BookWebControllerTest {
 		 mvc.perform(get("/deleteAll"))
 		 	.andExpect(view().name("redirect:/"));
 		 
-		 verify(bookService, times(1)).deleteAllBooks();
+		 verify(bookService).deleteAllBooks();
 		 verifyNoMoreInteractions(bookService);
 	 }
 

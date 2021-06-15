@@ -56,11 +56,7 @@ public class BookWebController {
 	
 	@PostMapping("/save")
 	public String saveBook(BookDTO bookDTO) throws BookNotFoundException {
-		Book book = new Book();
-		book.setId(bookDTO.getId());
-		book.setTitle(bookDTO.getTitle());
-		book.setAuthor(bookDTO.getAuthor());
-		book.setPrice(bookDTO.getPrice());
+		Book book = new Book(bookDTO.getId(), bookDTO.getTitle(), bookDTO.getAuthor(), bookDTO.getPrice());
 		
 		BigInteger id = book.getId();
 		

@@ -37,7 +37,7 @@ public class BookServiceWithMockitoTest {
 		
 		assertThat(bookService.getAllBooks()).isEmpty();
 		
-		verify(bookRepository, times(1)).findAll();
+		verify(bookRepository).findAll();
 		verifyNoMoreInteractions(bookRepository);		
 	}
 	
@@ -49,7 +49,7 @@ public class BookServiceWithMockitoTest {
 		
 		assertThat(bookService.getAllBooks()).containsExactly(book);
 		
-		verify(bookRepository, times(1)).findAll();
+		verify(bookRepository).findAll();
 		verifyNoMoreInteractions(bookRepository);
 	}
 	
@@ -62,7 +62,7 @@ public class BookServiceWithMockitoTest {
 		
 		assertThat(bookService.getAllBooks()).containsExactly(book1, book2);
 		
-		verify(bookRepository, times(1)).findAll();
+		verify(bookRepository).findAll();
 		verifyNoMoreInteractions(bookRepository);	
 	}
 	
@@ -74,7 +74,7 @@ public class BookServiceWithMockitoTest {
 		
 		assertThat(bookService.getBookById(BigInteger.valueOf(1))).isSameAs(book);
 		
-		verify(bookRepository, times(1)).findById(BigInteger.valueOf(1));
+		verify(bookRepository).findById(BigInteger.valueOf(1));
 	}
 	
 	@Test
@@ -104,7 +104,7 @@ public class BookServiceWithMockitoTest {
 		
 		assertThat(bookService.getBookByTitle("testedTitle")).containsExactly(book);
 		
-		verify(bookRepository, times(1)).findByTitle("testedTitle");
+		verify(bookRepository).findByTitle("testedTitle");
 		
 	}
 	
@@ -117,7 +117,7 @@ public class BookServiceWithMockitoTest {
 		
 		assertThat(bookService.getBookByTitle("testedTitle")).containsExactly(book1, book2);
 		
-		verify(bookRepository, times(1)).findByTitle("testedTitle");
+		verify(bookRepository).findByTitle("testedTitle");
 		verifyNoMoreInteractions(bookRepository);	
 	}
 	
@@ -154,7 +154,7 @@ public class BookServiceWithMockitoTest {
 		
 		assertThat(resultBook).isSameAs(bookSaved);
 		
-		verify(bookRepository, times(1)).save(bookToSave);
+		verify(bookRepository).save(bookToSave);
 		verifyNoMoreInteractions(bookRepository);
 
 		InOrder inOrder = inOrder(bookToSave, bookRepository);
@@ -183,8 +183,8 @@ public class BookServiceWithMockitoTest {
 		
 		assertThat(resultBook).isSameAs(replacedBook);
 		
-		verify(bookRepository, times(1)).save(replacementBook);
-		verify(bookRepository, times(1)).findById(BigInteger.valueOf(1));	
+		verify(bookRepository).save(replacementBook);
+		verify(bookRepository).findById(BigInteger.valueOf(1));	
 		
 		InOrder inOrder = inOrder(bookRepository, replacementBook, bookRepository);
 		inOrder.verify(bookRepository).findById(BigInteger.valueOf(1));
@@ -231,8 +231,8 @@ public class BookServiceWithMockitoTest {
 		
 		assertThatCode(() -> bookService.deleteOneBook(bookToDelete)).doesNotThrowAnyException();
 		
-		verify(bookRepository, times(1)).findById(BigInteger.valueOf(1));
-		verify(bookRepository, times(1)).delete(bookToDelete);
+		verify(bookRepository).findById(BigInteger.valueOf(1));
+		verify(bookRepository).delete(bookToDelete);
 	}
 	
 	@Test
@@ -266,7 +266,7 @@ public class BookServiceWithMockitoTest {
 				isInstanceOf(BookNotFoundException.class).
 					hasMessage(BOOK_NOT_FOUND);
 		
-		verify(bookRepository, times(1)).findById(BigInteger.valueOf(1));
+		verify(bookRepository).findById(BigInteger.valueOf(1));
 		verifyNoMoreInteractions(bookRepository);
 	}
 	
@@ -274,7 +274,7 @@ public class BookServiceWithMockitoTest {
 	public void test_deleteAllBooks() {
 		bookService.deleteAllBooks();
 		
-		verify(bookRepository, times(1)).deleteAll();
+		verify(bookRepository).deleteAll();
 		verifyNoMoreInteractions(bookRepository);
 	}	
 	

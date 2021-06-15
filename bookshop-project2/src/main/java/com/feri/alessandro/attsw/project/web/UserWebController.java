@@ -36,10 +36,7 @@ public class UserWebController {
 	
 	@PostMapping("/saveUser")
 	public String createNewUser(UserDTO userDTO, Model model) throws EmailExistException, UsernameExistException {
-		User user = new User();
-		user.setEmail(userDTO.getEmail());
-		user.setUsername(userDTO.getUsername());
-		user.setPassword(userDTO.getPassword());
+		User user = new User(null, userDTO.getEmail(), userDTO.getUsername(), userDTO.getPassword());
 		
 		userService.findUserByEmail(user.getEmail());
 		userService.findUserByUsername(user.getUsername());

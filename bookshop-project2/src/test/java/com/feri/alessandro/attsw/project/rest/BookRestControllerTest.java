@@ -60,7 +60,7 @@ public class BookRestControllerTest {
 				body(is(equalTo("[]"))
 			);
 		
-		verify(bookService, times(1)).getAllBooks();
+		verify(bookService).getAllBooks();
 		verifyNoMoreInteractions(bookService);
 	}
 	
@@ -87,7 +87,7 @@ public class BookRestControllerTest {
 					 "price[1]", equalTo(9.0f)
 				);
 		
-		verify(bookService, times(1)).getAllBooks();
+		verify(bookService).getAllBooks();
 		verifyNoMoreInteractions(bookService);
 	}
 	
@@ -104,7 +104,7 @@ public class BookRestControllerTest {
 				body(is(equalTo(BOOK_NOT_FOUND))
 			);
 		
-		verify(bookService, times(1)).getBookById(BigInteger.valueOf(1));
+		verify(bookService).getBookById(BigInteger.valueOf(1));
 		verifyNoMoreInteractions(bookService);
 	}
 	
@@ -126,7 +126,7 @@ public class BookRestControllerTest {
 				     "price", equalTo(7.0f)
 				);
 		
-		verify(bookService, times(1)).getBookById(BigInteger.valueOf(1));
+		verify(bookService).getBookById(BigInteger.valueOf(1));
 		verifyNoMoreInteractions(bookService);
 	}
 	
@@ -142,7 +142,7 @@ public class BookRestControllerTest {
 			assertThat().
 				body(is(equalTo(BOOK_NOT_FOUND)));
 		
-		verify(bookService, times(1)).getBookByTitle(anyString());
+		verify(bookService).getBookByTitle(anyString());
 		verifyNoMoreInteractions(bookService);
 	}
 	
@@ -170,7 +170,7 @@ public class BookRestControllerTest {
 					 "price[1]", equalTo(15.0f)
 				);
 		
-		verify(bookService, times(1)).getBookByTitle("testTitle");
+		verify(bookService).getBookByTitle("testTitle");
 		verifyNoMoreInteractions(bookService);
 	}
 	
@@ -193,7 +193,7 @@ public class BookRestControllerTest {
 					 "author", equalTo("author1"),
 					 "price", equalTo(7.0f)
 				);
-		verify(bookService, times(1)).insertNewBook(requesBodyBook);
+		verify(bookService).insertNewBook(requesBodyBook);
 		verifyNoMoreInteractions(bookService);
 	}
 	
@@ -212,7 +212,7 @@ public class BookRestControllerTest {
 			assertThat().
 				body(is(equalTo(BOOK_NOT_FOUND)));
 		
-		verify(bookService, times(1)).editBookById(BigInteger.valueOf(1), book);	
+		verify(bookService).editBookById(BigInteger.valueOf(1), book);	
 	}
 	
 	@Test
@@ -235,7 +235,7 @@ public class BookRestControllerTest {
 				 "price", equalTo(10.0f)
 				);
 		
-		verify(bookService, times(1)).editBookById(BigInteger.valueOf(1), requestBodyBook);
+		verify(bookService).editBookById(BigInteger.valueOf(1), requestBodyBook);
 		verifyNoMoreInteractions(bookService);
 	}
 	
@@ -252,7 +252,7 @@ public class BookRestControllerTest {
 				body(is(equalTo(BOOK_NOT_FOUND))
 			);
 		
-		verify(bookService, times(1)).getBookById(BigInteger.valueOf(1));
+		verify(bookService).getBookById(BigInteger.valueOf(1));
 	}
 	
 	@Test
@@ -266,8 +266,8 @@ public class BookRestControllerTest {
 		then().
 			statusCode(200);
 		
-		verify(bookService, times(1)).getBookById(BigInteger.valueOf(1));
-		verify(bookService, times(1)).deleteOneBook(bookToDelete);
+		verify(bookService).getBookById(BigInteger.valueOf(1));
+		verify(bookService).deleteOneBook(bookToDelete);
 	}
 	
 	@Test
@@ -279,7 +279,7 @@ public class BookRestControllerTest {
 		then().
 			statusCode(200);
 		
-		verify(bookService, times(1)).deleteAllBooks();
+		verify(bookService).deleteAllBooks();
 	}
 
 	private RestAssuredMockMvcConfig noSecurity() {
