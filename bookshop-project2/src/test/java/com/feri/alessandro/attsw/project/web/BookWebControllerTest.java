@@ -135,13 +135,13 @@ public class BookWebControllerTest {
 	 @WithMockUser
 	 public void test_PostBookWithoutId_ShouldInsertNewBook() throws Exception {
 		 mvc.perform(post("/save")
-				 .param("title", "testedTitle")
-				 .param("author", "testedAuthor")
+				 .param("title", "newTitle")
+				 .param("author", "newAuthor")
 				 .param("price", "10"))
 		 	.andExpect(view().name("redirect:/"));
 		 	
 			verify(bookService).insertNewBook(
-					new Book(null, "testedTitle", "testedAuthor", 10.0));
+					new Book(null, "newTitle", "newAuthor", 10.0));
 			verifyNoMoreInteractions(bookService);
 	 }
 	 
@@ -150,13 +150,13 @@ public class BookWebControllerTest {
 	 public void test_PostBookBookWithId_ShouldUpdateExistingBook() throws Exception {
 		 mvc.perform(post("/save")
 				 .param("id", "1")
-				 .param("title", "testedTitle")
-				 .param("author", "testedAuthor")
+				 .param("title", "updatedTitle")
+				 .param("author", "updatedAuthor")
 				 .param("price", "10"))
 		 	.andExpect(view().name("redirect:/"));
 
 		 verify(bookService).editBookById(
-				 BigInteger.valueOf(1), new Book(BigInteger.valueOf(1), "testedTitle", "testedAuthor", 10.0));
+				 BigInteger.valueOf(1), new Book(BigInteger.valueOf(1), "updatedTitle", "updatedAuthor", 10.0));
 		 verifyNoMoreInteractions(bookService);
 	 }
 	 

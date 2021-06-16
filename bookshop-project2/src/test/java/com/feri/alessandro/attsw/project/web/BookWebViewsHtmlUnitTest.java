@@ -180,7 +180,6 @@ public class BookWebViewsHtmlUnitTest {
 		
 		assertTextPresent(search, "Error! Please, insert a valid title.");
 		assertThat(search.getAnchorByText("Home").getHrefAttribute()).isEqualTo("/");
-		assertThat(search.getTextContent()).isNull();
 	}
 	
 	@Test
