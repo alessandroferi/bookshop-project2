@@ -132,6 +132,9 @@ public class UserWebViewsHtmlUnitTest {
 	
 	@Test
 	public void test_SuccessfullRegistration() throws Exception {
+		when(userService.findUserByEmail("email@gmail")).thenReturn(null);
+		when(userService.findUserByUsername("username")).thenReturn(null);
+		
 		HtmlPage page = webClient.getPage("/registration");
 		
 		HtmlForm form = page.getFormByName("registration_form");
@@ -142,6 +145,8 @@ public class UserWebViewsHtmlUnitTest {
 		
 		HtmlPage result = form.getButtonByName("Register").click();
 		
+		verify(userService).findUserByEmail("email@gmail");
+		verify(userService).findUserByUsername("username");
 		verify(userService).saveUser(new User(null, "email@gmail", "username", "password"));
 		assertThat(result.getTitleText()).isEqualTo("Result");
 		assertThat(result.getBody().getTextContent()).contains(
@@ -149,5 +154,4 @@ public class UserWebViewsHtmlUnitTest {
 		assertLinkPresentWithText(result, "Login Page");
 
 	}
-	
 }
