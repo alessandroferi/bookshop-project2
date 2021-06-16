@@ -140,8 +140,6 @@ public class BookWebControllerIT {
 	@WithMockUser
 	public void test_saveWithoutId_shouldInsertBookIntoRepository_andRedirectToHomePage() throws Exception {
 		
-		assertThat(bookRepository.findAll()).isEmpty();
-		
 		mvc.perform(post("/save")
 				.param("title", "title1")
 				.param("author", "author1")
@@ -211,8 +209,6 @@ public class BookWebControllerIT {
 	public void test_deleteBook_shouldDeleteFromRepository_andRedirectToHomepage() throws Exception {
 		Book saved = new Book(null, "title", "author", 10.0);
 		bookRepository.save(saved);
-		
-		assertThat(bookRepository.findAll()).containsExactly(saved);
 		
 		BigInteger id = bookRepository.findAll().get(0).getId();
 		
