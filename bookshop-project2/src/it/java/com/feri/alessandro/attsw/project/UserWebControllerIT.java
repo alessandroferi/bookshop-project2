@@ -2,6 +2,7 @@ package com.feri.alessandro.attsw.project;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -81,6 +82,7 @@ public class UserWebControllerIT {
 		
 		User saved = userRepository.findAll().get(0);
 		
+		assertNotNull(saved.getId());
 		assertEquals("email@gmail", saved.getEmail());
 		assertEquals("test", saved.getUsername());
 		assertTrue(passwordEncoder.matches("password", saved.getPassword()));
