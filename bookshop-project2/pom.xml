@@ -30,7 +30,7 @@
       ${project.reporting.outputDirectory}/jacoco/jacoco.xml
     </sonar.coverage.jacoco.xmlReportPaths>
     
-    <!-- If you need that, also includes integration tests -->
+    <!-- If you need, also includes integration tests -->
     <sonar.junit.reportPaths>
       ${project.build.directory}/surefire-reports,
       ${project.build.directory}/failsafe-reports
@@ -208,6 +208,7 @@
 	    <groupId>org.apache.maven.plugins</groupId>
 	    <artifactId>maven-surefire-plugin</artifactId>
 	    <configuration>
+	    <argLine>${surefireArgLine}</argLine>
 	    <skipTests>${skip.unit-tests}</skipTests>
 	      <includes>
 	        <include>**/*Test.java</include>
@@ -254,6 +255,9 @@
 	            <!-- binds to the phase "verify" --> 
 	            <goal>report</goal>
 	          </goals>
+	          <configuration>
+	            <propertyName>surefireArgLine</propertyName>
+	          </configuration>
 	        </execution>
 	        <execution>
 	          <id>jacoco-check</id>
