@@ -24,6 +24,9 @@ public class UserService implements UserDetailsService {
 	}
 
 	public User findUserByEmail(String email) throws EmailExistException {
+		if(email == null) 
+			throw new IllegalArgumentException();
+		
 		if(userRepository.findByEmail(email).isPresent())
 			throw new EmailExistException("Email already exist");
 		
@@ -31,6 +34,9 @@ public class UserService implements UserDetailsService {
 	}
 
 	public User findUserByUsername(String username) throws UsernameExistException {
+		if(username == null) 
+			throw new IllegalArgumentException();
+		
 		if(userRepository.findByUsername(username).isPresent())
 			throw new UsernameExistException("Username already exist");
 		
@@ -38,12 +44,18 @@ public class UserService implements UserDetailsService {
 	}
 
 	public void saveUser(User user) {
+		if(user == null) 
+			throw new IllegalArgumentException();
+		
 		user.setPassword(passwordEncoder.encode(user.getPassword()));
 		userRepository.save(user);
 	}
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+		if(username == null) 
+			throw new IllegalArgumentException();
+		
 		return userRepository.findByUsername(username).
 				orElseThrow(() ->
 						new UsernameNotFoundException("user not found"));

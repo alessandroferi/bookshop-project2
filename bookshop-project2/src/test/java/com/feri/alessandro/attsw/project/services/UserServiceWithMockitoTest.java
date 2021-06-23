@@ -45,6 +45,15 @@ public class UserServiceWithMockitoTest {
 	}
 	
 	@Test
+	public void test_findByEmail_withNullEmail_shouldThrowException() {
+		assertThatThrownBy(() ->
+				userService.findUserByEmail(null)).isInstanceOf(IllegalArgumentException.class);
+		
+		verifyNoInteractions(userRepository);
+		
+	}
+	
+	@Test
 	public void test_findByEmail_whenEmailAddressAlreadyExist_shouldThrowException() {
 		User user = new User(null, "tested_email@gmail", "username", "password");
 		
@@ -69,6 +78,15 @@ public class UserServiceWithMockitoTest {
 	}
 	
 	@Test
+	public void test_findByUsername_withNullUsername_shouldThrowException() {
+		assertThatThrownBy(() ->
+				userService.findUserByUsername(null)).isInstanceOf(IllegalArgumentException.class);
+		
+		verifyNoInteractions(userRepository);
+		
+	}
+	
+	@Test
 	public void test_findByUsername_whenUserAlreadyExist_shouldThrowException() {
 		User user = new User(null, "email@gmail", "tested_username", "password");
 		
@@ -79,6 +97,28 @@ public class UserServiceWithMockitoTest {
 					isInstanceOf(UsernameExistException.class);
 		
 		verify(userRepository).findByUsername("tested_username");
+	}
+	
+	@Test
+	public void test_loadByUsername_whenUserNotExist_shouldThrowException() {
+		when(userRepository.findByUsername("username")).thenReturn(Optional.empty());
+		
+		assertThatThrownBy(() -> 
+				userService.loadUserByUsername("username")).
+					isInstanceOf(UsernameNotFoundException.class);
+		
+		verify(userRepository).findByUsername("username");
+	
+	}
+	
+	
+	@Test
+	public void test_loadByUsername_withNullUsername_shouldThrowException() {
+		assertThatThrownBy(() ->
+				userService.loadUserByUsername(null)).isInstanceOf(IllegalArgumentException.class);
+		
+		verifyNoInteractions(userRepository);
+		
 	}
 	
 	@Test
@@ -93,14 +133,12 @@ public class UserServiceWithMockitoTest {
 	}
 	
 	@Test
-	public void test_loadByUsername_whenUserNotExist_shouldThrowException() {
-		when(userRepository.findByUsername("username")).thenReturn(Optional.empty());
+	public void test_saveUser_withNullUser_shouldThrowException() {
+		assertThatThrownBy(() ->
+				{userService.saveUser(null);}).isInstanceOf(IllegalArgumentException.class);
 		
-		assertThatThrownBy(() -> 
-				userService.loadUserByUsername("username")).
-					isInstanceOf(UsernameNotFoundException.class);
+		verifyNoInteractions(userRepository);
 		
-		verify(userRepository).findByUsername("username");
 	}
 	
 	@Test
