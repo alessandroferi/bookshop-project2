@@ -156,8 +156,6 @@ public class BookWebControllerIT {
 		
 		bookRepository.save(saved);
 		
-		assertEquals(1, bookRepository.findAll().size());
-		
 		BigInteger id = bookRepository.findAll().get(0).getId();
 		
 		mvc.perform(post("/save")
@@ -227,8 +225,6 @@ public class BookWebControllerIT {
 				new Book(null, "title3", "author3", 20.0));
 		
 		bookRepository.saveAll(books);
-		
-		assertEquals(3, bookRepository.findAll().size());
 		
 		mvc.perform(get("/deleteAll")).
 			andExpect(view().name("redirect:/"));
