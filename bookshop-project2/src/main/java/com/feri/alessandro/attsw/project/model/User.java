@@ -28,10 +28,6 @@ public class User implements UserDetails {
 		this.username = username;
 		this.password = password;
 	}
-
-	public User() {
-		
-	}
 	
 	public String getId() {
 		return id;
