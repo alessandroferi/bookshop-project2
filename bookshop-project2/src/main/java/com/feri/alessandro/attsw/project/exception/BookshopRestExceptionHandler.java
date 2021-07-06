@@ -11,7 +11,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 public class BookshopRestExceptionHandler extends ResponseEntityExceptionHandler {
 
 	@ExceptionHandler(value = BookNotFoundException.class)
-	public ResponseEntity<Object> handleBookNotFoundException(BookNotFoundException exception) {
+	public ResponseEntity<Object> handleBookNotFoundException() {
 		return new ResponseEntity<>("Book not found!", HttpStatus.NOT_FOUND);
 	}
 }
